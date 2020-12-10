@@ -2,12 +2,14 @@
 
 ==== Prepare your AWS account
 
-_Describe any setup required in the AWS account prior to template launch_
+. You need https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html#jf_administrator[Administrator] access to your AWS account so that you can deploy, manage and test the solution. If you are using https://aws.amazon.com/controltower/[AWS Control Tower], it is recommended you deploy the solution to AWS Control Tower https://docs.aws.amazon.com/controltower/latest/userguide/how-control-tower-works.html#what-is-master[management account] in your home region, where the AWS Control Tower https://aws.amazon.com/controltower/features/#Landing_Zone[landing zone] was set up.
+. Make sure the https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html[permissions] for https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html[AWS CloudFormation StackSets] have been setup in your AWS account. It is recommended that you use self-managed permissions for a better security posture and control. In case you are using the AWS Control Tower, you should use the pre-configured IAM Roles for StackSet operations, viz. `AWSControlTowerStackSetRole` and `AWSControlTowerExecution`.
+. The solution relies on https://aws.amazon.com/systems-manager/[AWS Systems Manager] (SSM) https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html[Automation] and requires that EC2 instances have the https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html[AWS Systems Manager Agent (SSM Agent)] installed.  SSM Agent is preinstalled, by default, on many Windows and Linux Amazon Machine Images (AMIs). In case you are using an AMI that doesn't have the agent installed, you must manually install the SSM Agent for https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-manual-agent-install.html[Linux] and https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-win.html[Windows]. You can also install SSM Agent on an Amazon EC2 Linux instance https://aws.amazon.com/premiumsupport/knowledge-center/install-ssm-agent-ec2-linux/[at launch].
+. Configure an AWS Identity and Access Management (IAM) instance profile that enables Systems Manager to securely run commands on your EC2 instances on your behalf. The managed IAM policy, `AmazonSSMManagedInstanceCore`, enables an instance to use AWS Systems Manager service core functionality. You can also use https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-quick-setup.html[Systems Manager Quick Setup] to quickly configure an instance profile on all instances in your AWS account. For more details, refer to, https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html[create an IAM instance profile for Systems Manager].
 
 ==== Prepare your {partner-company-name} account
 
-_Describe any setup required in the partner portal/account prior to template launch_
+You need an active https://one.newrelic.com/[New Relic account] using the https://docs.newrelic.com/docs/accounts/accounts-billing/new-relic-one-pricing-users/pricing-billing[New Relic One pricing plan] with Standard or higher pricing tier. If you don't already have an account, you may https://aws.amazon.com/marketplace/pp/B08L5FQMTG[signup] for a new account, for free.
 
 ==== Prepare for the deployment
 
-_Describe any preparation required to complete the product build, such as obtaining licenses or placing files in S3_
