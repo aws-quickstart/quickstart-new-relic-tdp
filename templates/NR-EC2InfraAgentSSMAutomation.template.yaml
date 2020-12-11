@@ -1,9 +1,10 @@
 AWSTemplateFormatVersion: 2010-09-09
+Description: Configures the SSM and Event Bridge infrastructure required to deploy the New Relic agent for EC2 into an existing VPC. (qs-1rdf7jmtg)
 Metadata: 
   AWS::CloudFormation::Interface: 
     ParameterGroups: 
       - Label: 
-          default: "New Relic Account Info"
+          default: "New Relic account info"
         Parameters: 
           - NewRelicLicenseKey
       - Label: 
@@ -12,7 +13,7 @@ Metadata:
           - CreateEC2InstanceProfile
     ParameterLabels: 
       NewRelicLicenseKey: 
-        default: "Enter your New Relic License key."
+        default: "Enter your New Relic license key."
       CreateEC2InstanceProfile:
         default: "Do you want to create an EC2 instance profile that allows Systems Manager core service functionality?"
 Parameters:
@@ -28,7 +29,7 @@ Parameters:
     NoEcho: true
     AllowedPattern: '[A-Za-z0-9]+'
     ConstraintDescription: License key must match the pattern [A-Za-z0-9]+
-    Description: (Required) Enter your New Relic License key.
+    Description: (Required) Enter your New Relic license key.
 Conditions:
   CreateEC2InstanceProfile:
     'Fn::Equals':
