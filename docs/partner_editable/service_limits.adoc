@@ -3,12 +3,9 @@
 |Resource |This deployment uses
 
 // Space needed to maintain table headers
-|VPCs |<n>
-|Elastic IP addresses |<n>
-|Security groups |<n>
-|AWS Identity and Access Management (IAM) roles |<n>
-|Auto Scaling groups |<n>
-|Application Load Balancers |<n>
-|Network Load Balancers |<n>
-|<type> instances |<n>
+|Amazon EventBridge rules | 1
+|AWS SSM documents | 1
+|AWS Secrets Manager secrets | 1
+|AWS Identity and Access Management (IAM) roles | 1-2
+|AWS IAM instance profiles | 0-1
 |===

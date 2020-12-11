@@ -1,0 +1,244 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata: 
+  AWS::CloudFormation::Interface: 
+    ParameterGroups: 
+      - Label: 
+          default: "New Relic Account Info"
+        Parameters: 
+          - NewRelicLicenseKey
+      - Label: 
+          default: "EC2 instance profile"
+        Parameters: 
+          - CreateEC2InstanceProfile
+    ParameterLabels: 
+      NewRelicLicenseKey: 
+        default: "Enter your New Relic License key."
+      CreateEC2InstanceProfile:
+        default: "Do you want to create an EC2 instance profile that allows Systems Manager core service functionality?"
+Parameters:
+  CreateEC2InstanceProfile:
+    Type: String
+    AllowedValues:
+      - 'Yes'
+      - 'No'
+    Default: 'No'
+    Description: Create an EC2 instance profile that allows Systems Manager core service functionality
+  NewRelicLicenseKey:
+    Type: String
+    NoEcho: true
+    AllowedPattern: '[A-Za-z0-9]+'
+    ConstraintDescription: License key must match the pattern [A-Za-z0-9]+
+    Description: (Required) Enter your New Relic License key.
+Conditions:
+  CreateEC2InstanceProfile:
+    'Fn::Equals':
+      - !Ref CreateEC2InstanceProfile
+      - 'Yes'
+Resources:
+  NRSSMRoleForEC2Instances:
+    Condition: CreateEC2InstanceProfile
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: ec2.amazonaws.com
+          Action: sts:AssumeRole
+      Description: New Relic provided EC2 role that enables instances to use Systems Manager core service functionality
+      ManagedPolicyArns: 
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy
+  NRSSMInstanceProfile: 
+    Condition: CreateEC2InstanceProfile
+    Type: AWS::IAM::InstanceProfile
+    Properties: 
+      Path: /instance-profile/
+      Roles: 
+        - Ref: NRSSMRoleForEC2Instances
+  NRLicenseKey:
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W77
+            reason: The License key should not be shared cross account, and KmsKeyId defaults to the AWS managed CMK for Secrets Manager.
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: Your New Relic License Key.
+      Name: !Sub /${AWS::StackName}/NRLicenseKey
+      SecretString: !Ref NewRelicLicenseKey
+  NREC2InfraAgentRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Install NR Infra agent on EC2 instances
+      EventPattern:
+        source:
+          - aws.ec2
+        detail-type:
+          - EC2 Instance State-change Notification
+        detail:
+          state:
+            - running
+      Name: NR-EC2InfraAgentRule
+      Targets:
+        - Id: NR-EC2InfraAgentSSMAutomationDoc
+          RoleArn: !GetAtt NRSSMAutomationExecutionRole.Arn
+          Arn: !Sub
+            - arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:automation-definition/${DocumentName}:$DEFAULT
+            - DocumentName: !Ref NREC2InfraAgentSSMAutomationDoc
+          InputTransformer:
+            InputPathsMap:
+              instance: $.detail.instance-id
+            InputTemplate: '{"InstanceId":[<instance>]}'
+  NRSSMAutomationExecutionRole:
+    Type: AWS::IAM::Role
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W11
+            reason: SSM Automation execution role needs restricted access to all EC2 instances to run the automation.
+    Properties:
+      Path: /service-role/
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - events.amazonaws.com
+                - ssm.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: NRSSMAutomationExecutionPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Action: ssm:SendCommand
+                Effect: Allow
+                Resource:
+                  - !Sub 'arn:${AWS::Partition}:ec2:*:${AWS::AccountId}:instance/*'
+              - Action:
+                  - ssm:StartAutomationExecution
+                Effect: Allow
+                Resource:
+                  - !Sub
+                    - arn:${AWS::Partition}:ssm:*:${AWS::AccountId}:automation-definition/${DocumentName}:$DEFAULT
+                    - DocumentName: !Ref NREC2InfraAgentSSMAutomationDoc
+              - Action: ssm:SendCommand
+                Effect: Allow
+                Resource:
+                  - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:539736333151:document/New-Relic_Infrastructure
+              - Action:
+                  - ssm:List*
+                  - ssm:Get*
+                  - ssm:Describe*
+                Effect: Allow
+                Resource:
+                  - !Sub arn:${AWS::Partition}:ssm:*:${AWS::AccountId}:*
+              - Action:
+                  - secretsmanager:GetSecretValue
+                Effect: Allow
+                Resource:
+                  - !Ref NRLicenseKey
+              - Effect: Allow
+                Action:
+                  - ec2:DescribeInstanceStatus
+                  - ec2:DescribeTags
+                Resource:
+                  - '*'
+  NREC2InfraAgentSSMAutomationDoc:
+    Type: AWS::SSM::Document
+    Properties:
+      DocumentType: Automation
+      Name: NR-EC2InfraAgentSSMAutomationDoc
+      Content:
+        description: Automate NR Infra EC2 agent installation
+        schemaVersion: '0.3'
+        parameters:
+          InstanceId:
+            type: String
+            description: (Required) The ID of the EC2 instance to install NR Infra
+              agent on
+          FilterByTag:
+            description: Filter by EC2 instance tag, with "NR-Infrastructure" tag name set to "Install"?
+            type: String
+            default: 'Yes'
+            allowedValues:
+              - 'Yes'
+              - 'No'
+        mainSteps:
+          - name: GetEC2InstanceState
+            action: aws:executeAwsApi
+            maxAttempts: 5
+            timeoutSeconds: 2
+            inputs:
+              Service: ec2
+              Api: DescribeInstanceStatus
+              InstanceIds:
+                - '{{InstanceId}}'
+            outputs:
+              - Name: State
+                Selector: $.InstanceStatuses[0].InstanceState.Name
+                Type: String
+          - maxAttempts: 5
+            inputs:
+              Service: ec2
+              Api: DescribeTags
+              Filters:
+                - Name: resource-type
+                  Values:
+                    - instance
+                - Name: resource-id
+                  Values:
+                    - '{{InstanceId}}'
+                - Name: tag:NR-Infrastructure
+                  Values:
+                    - Install
+            outputs:
+              - Name: TagValue
+                Selector: $.Tags[0].Value
+                Type: String
+            name: GetEC2InstanceTag
+            action: aws:executeAwsApi
+            timeoutSeconds: 2
+          - name: Branch
+            action: aws:branch
+            inputs:
+              Choices:
+                - NextStep: End
+                  Not:
+                    Variable: '{{GetEC2InstanceState.State}}'
+                    StringEquals: running
+                - NextStep: GetNRLicenseKeySecret
+                  Variable: '{{FilterByTag}}'
+                  StringEquals: 'No'
+                - NextStep: GetNRLicenseKeySecret
+                  Variable: '{{GetEC2InstanceTag.TagValue}}'
+                  StringEquals: Install
+            isEnd: true
+          - name: GetNRLicenseKeySecret
+            action: aws:executeAwsApi
+            inputs:
+              Service: secretsmanager
+              Api: GetSecretValue
+              SecretId: !Ref NRLicenseKey
+            outputs:
+              - Name: Value
+                Selector: $.SecretString
+                Type: String
+          - name: InstallNewRelicInfraAgent
+            action: aws:runCommand
+            inputs:
+              InstanceIds:
+                - '{{InstanceId}}'
+              DocumentName: !Sub arn:aws:ssm:${AWS::Region}:539736333151:document/New-Relic_Infrastructure
+              Parameters:
+                licenseKey:
+                  - '{{GetNRLicenseKeySecret.Value}}'
+            isEnd: true
+          - name: End
+            action: aws:sleep
+            inputs:
+              Duration: PT1S
