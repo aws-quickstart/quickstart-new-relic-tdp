@@ -1,12 +1,28 @@
 AWSTemplateFormatVersion: 2010-09-09
+Metadata: 
+  AWS::CloudFormation::Interface: 
+    ParameterGroups: 
+      - Label: 
+          default: "New Relic Account Info"
+        Parameters: 
+          - NewRelicLicenseKey
+      - Label: 
+          default: "EC2 instance profile"
+        Parameters: 
+          - CreateEC2InstanceProfile
+    ParameterLabels: 
+      NewRelicLicenseKey: 
+        default: "Enter your New Relic License key."
+      CreateEC2InstanceProfile:
+        default: "Do you want to create an EC2 instance profile that allows Systems Manager core service functionality?"
 Parameters:
   CreateEC2InstanceProfile:
     Type: String
     AllowedValues:
-      - Yes
-      - No
-    Default: No
-    Description: Do you want a create an EC2 Instance Profile to use Systems Manager core service functionality?
+      - 'Yes'
+      - 'No'
+    Default: 'No'
+    Description: Create an EC2 instance profile that allows Systems Manager core service functionality
   NewRelicLicenseKey:
     Type: String
     NoEcho: true
@@ -17,7 +33,7 @@ Conditions:
   CreateEC2InstanceProfile:
     'Fn::Equals':
       - !Ref CreateEC2InstanceProfile
-      - No
+      - 'Yes'
 Resources:
   NRSSMRoleForEC2Instances:
     Condition: CreateEC2InstanceProfile
@@ -32,8 +48,8 @@ Resources:
           Action: sts:AssumeRole
       Description: New Relic provided EC2 role that enables instances to use Systems Manager core service functionality
       ManagedPolicyArns: 
-        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
-        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy
   NRSSMInstanceProfile: 
     Condition: CreateEC2InstanceProfile
     Type: AWS::IAM::InstanceProfile
@@ -69,7 +85,7 @@ Resources:
         - Id: NR-EC2InfraAgentSSMAutomationDoc
           RoleArn: !GetAtt NRSSMAutomationExecutionRole.Arn
           Arn: !Sub
-            - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:automation-definition/${DocumentName}:$DEFAULT
+            - arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:automation-definition/${DocumentName}:$DEFAULT
             - DocumentName: !Ref NREC2InfraAgentSSMAutomationDoc
           InputTransformer:
             InputPathsMap:
@@ -102,25 +118,25 @@ Resources:
               - Action: ssm:SendCommand
                 Effect: Allow
                 Resource:
-                  - !Sub 'arn:aws:ec2:*:${AWS::AccountId}:instance/*'
+                  - !Sub 'arn:${AWS::Partition}:ec2:*:${AWS::AccountId}:instance/*'
               - Action:
                   - ssm:StartAutomationExecution
                 Effect: Allow
                 Resource:
                   - !Sub
-                    - arn:aws:ssm:*:${AWS::AccountId}:automation-definition/${DocumentName}:$DEFAULT
+                    - arn:${AWS::Partition}:ssm:*:${AWS::AccountId}:automation-definition/${DocumentName}:$DEFAULT
                     - DocumentName: !Ref NREC2InfraAgentSSMAutomationDoc
               - Action: ssm:SendCommand
                 Effect: Allow
                 Resource:
-                  - !Sub arn:aws:ssm:${AWS::Region}:539736333151:document/New-Relic_Infrastructure
+                  - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:539736333151:document/New-Relic_Infrastructure
               - Action:
                   - ssm:List*
                   - ssm:Get*
                   - ssm:Describe*
                 Effect: Allow
                 Resource:
-                  - !Sub arn:aws:ssm:*:${AWS::AccountId}:*
+                  - !Sub arn:${AWS::Partition}:ssm:*:${AWS::AccountId}:*
               - Action:
                   - secretsmanager:GetSecretValue
                 Effect: Allow
@@ -139,19 +155,19 @@ Resources:
       Name: NR-EC2InfraAgentSSMAutomationDoc
       Content:
         description: Automate NR Infra EC2 agent installation
-        schemaVersion: 0.3
+        schemaVersion: '0.3'
         parameters:
           InstanceId:
             type: String
             description: (Required) The ID of the EC2 instance to install NR Infra
               agent on
           FilterByTag:
-            description: Filter by EC2 instance tag
+            description: Filter by EC2 instance tag, with "NR-Infrastructure" tag name set to "Install"?
             type: String
-            default: Yes
+            default: 'Yes'
             allowedValues:
-              - Yes
-              - No
+              - 'Yes'
+              - 'No'
         mainSteps:
           - name: GetEC2InstanceState
             action: aws:executeAwsApi

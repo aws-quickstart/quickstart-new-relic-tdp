@@ -11,5 +11,3 @@
 
 You need an active https://one.newrelic.com/[New Relic account] using the https://docs.newrelic.com/docs/accounts/accounts-billing/new-relic-one-pricing-users/pricing-billing[New Relic One pricing plan] with Standard or higher pricing tier. If you don't already have an account, you may https://aws.amazon.com/marketplace/pp/B08L5FQMTG[signup] for a new account, for free.
 
-==== Prepare for the deployment
-

@@ -26,5 +26,6 @@ project:
 tests:
   nr-ec2-infra-agent-ssm-automation:
     parameters:
-      NewRelicLicenseKey: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxNRAL"
-    template: ./templates/NR-EC2InfraAgentSSMAutomation.yml
+      NewRelicLicenseKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxNRAL'
+      CreateEC2InstanceProfile: 'Yes'
+    template: ./templates/NR-EC2InfraAgentSSMAutomation.template.yaml

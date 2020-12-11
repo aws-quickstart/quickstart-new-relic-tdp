@@ -27,5 +27,3 @@ See https://docs.newrelic.com/docs/new-relic-solutions/best-practices-guides/ful
 
 Every piece of information exchanged between your instances and the New Relic Infrastructure agent is delivered securely. All communication from the agent occurs over HTTPS, using Transport Layer Security (TLS). To learn more about how New Relic addresses security in Infrastructure agent, see https://docs.newrelic.com/docs/infrastructure/infrastructure-monitoring/infrastructure-security/infrastructure-security[Infrastructure and security]. For more information about New Relic's security measures, see our https://docs.newrelic.com/docs/using-new-relic/new-relic-security/security/security-matters-data-privacy-new-relic[security and privacy documentation], or visit the https://newrelic.com/why-new-relic/security[New Relic security website].  
 
-== Other useful information
-//Provide any other information of interest to users, especially focusing on areas where AWS or cloud usage differs from on-premises usage.

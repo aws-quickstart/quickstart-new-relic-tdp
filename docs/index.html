@@ -810,7 +810,6 @@ p.footer-text a{color:#d7d8d8}
 <li><a href="#_test_the_deployment">Test the deployment</a></li>
 <li><a href="#_best_practices_for_using_new_relics_ec2_infrastructure_integration_on_aws">Best practices for using New Relic&#8217;s EC2 Infrastructure integration on AWS</a></li>
 <li><a href="#_security">Security</a></li>
-<li><a href="#_other_useful_information">Other useful information</a></li>
 <li><a href="#_faq">FAQ</a></li>
 <li><a href="#_troubleshooting">Troubleshooting</a></li>
 <li><a href="#_parameter_reference">Parameter reference</a></li>
@@ -901,6 +900,9 @@ report bugs, or submit feature ideas for this Quick Start.
 </li>
 <li>
 <p>The solution launches a <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html">StackSet</a> so it can be easily deployed across multiple regions and accounts. This makes the installation of EC2 agent seamless across your multi-account, and multi-region AWS environment.</p>
+</li>
+<li>
+<p>If you have a large number of EC2 instances in your AWS account(s), and you want to monitor them with New Relic, the SSM Automation can be run on-demand so you can seamlessly install the Infrastructure agent using the automation targeting all instances, in a matter of seconds to minutes depending on the number of instances and the number of accounts and regions they span across.</p>
 </li>
 <li>
 <p>If you&#8217;re using <a href="https://aws.amazon.com/controltower/">AWS Control Tower</a>, the template can be added into your <a href="https://docs.aws.amazon.com/controltower/latest/userguide/customize-landing-zone.html">AWS Control Tower landing zone customization</a> to automatically deploy the solution for you every time a new account is enrolled.</p>
@@ -1135,76 +1137,94 @@ AWS Cloud.</p>
 <div class="paragraph">
 <p>This Quick Start supports the following Regions:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>US East (Ohio)	us-east-2</p>
-</li>
-<li>
-<p>US East (N. Virginia)	us-east-1</p>
-</li>
-<li>
-<p>US West (N. California)	us-west-1</p>
-</li>
-<li>
-<p>US West (Oregon)	us-west-2</p>
-</li>
-<li>
-<p>Africa (Cape Town)	af-south-1</p>
-</li>
-<li>
-<p>Asia Pacific (Hong Kong)	ap-east-1</p>
-</li>
-<li>
-<p>Asia Pacific (Mumbai)	ap-south-1</p>
-</li>
-<li>
-<p>Asia Pacific (Seoul)	ap-northeast-2</p>
-</li>
-<li>
-<p>Asia Pacific (Singapore)	ap-southeast-1</p>
-</li>
-<li>
-<p>Asia Pacific (Sydney)	ap-southeast-2</p>
-</li>
-<li>
-<p>Asia Pacific (Tokyo)	ap-northeast-1</p>
-</li>
-<li>
-<p>Canada (Central)	ca-central-1</p>
-</li>
-<li>
-<p>China (Beijing)	cn-north-1</p>
-</li>
-<li>
-<p>China (Ningxia)	cn-northwest-1</p>
-</li>
-<li>
-<p>Europe (Frankfurt)	eu-central-1</p>
-</li>
-<li>
-<p>Europe (Ireland)	eu-west-1</p>
-</li>
-<li>
-<p>Europe (London)	eu-west-2</p>
-</li>
-<li>
-<p>Europe (Milan)	eu-south-1</p>
-</li>
-<li>
-<p>Europe (Paris)	eu-west-3</p>
-</li>
-<li>
-<p>Europe (Stockholm)	eu-north-1</p>
-</li>
-<li>
-<p>Middle East (Bahrain)	me-south-1</p>
-</li>
-<li>
-<p>South America (São Paulo)	sa-east-1</p>
-</li>
-</ul>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">US East (N. Virginia)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">us-east-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">US East (Ohio)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">us-east-2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">US West (N. California)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">us-west-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">US West (Oregon)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">us-west-2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Africa (Cape Town)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">af-south-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asia Pacific (Hong Kong)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ap-east-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asia Pacific (Mumbai)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ap-south-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asia Pacific (Tokyo)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ap-northeast-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asia Pacific (Seoul)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ap-northeast-2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asia Pacific (Singapore)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ap-southeast-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asia Pacific (Sydney)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ap-southeast-2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Canada (Central)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ca-central-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Europe (Frankfurt)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eu-central-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Europe (Ireland)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eu-west-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Europe (London)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eu-west-2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Europe (Paris)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eu-west-3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Europe (Milan)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eu-south-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Europe (Stockholm)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eu-north-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Middle East (Bahrain)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">me-south-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">South America (São Paulo)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sa-east-1</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1257,10 +1277,6 @@ Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.
 <div class="paragraph">
 <p>You need an active <a href="https://one.newrelic.com/">New Relic account</a> using the <a href="https://docs.newrelic.com/docs/accounts/accounts-billing/new-relic-one-pricing-users/pricing-billing">New Relic One pricing plan</a> with Standard or higher pricing tier. If you don&#8217;t already have an account, you may <a href="https://aws.amazon.com/marketplace/pp/B08L5FQMTG">signup</a> for a new account, for free.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_prepare_for_the_deployment">Prepare for the deployment</h4>
-
 </div></div></td>
 </tr>
 </tbody>
@@ -1277,7 +1293,22 @@ Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>This Quick Start provides following deployment options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Deploy New Relic&#8217;s EC2 Infrastructure integration as CloudFormation StackSet</strong>. This option is recommended and is especially useful when you are dealing with EC2 instances spanning across multiple regions and accounts.</p>
+</li>
+<li>
+<p><strong>Deploy New Relic&#8217;s EC2 Infrastructure integration as CloudFormation Stack</strong>. This option is mostly useful for testing or troubleshooting, where you want to quickly deploy the stack in a given region, and then test the automation to see if it works as you expect it to.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The Quick Start provides single template for these options. Use either CloudFormation StackSet or Stack to launch it.</p>
+</div></div></td>
 </tr>
 </tbody>
 </table>
@@ -1332,7 +1363,7 @@ You are responsible for the cost of the AWS services used while running this Qui
 </table>
 </div>
 <div class="paragraph">
-<p>This solution includes a CloudFormation template, viz. <a href="templates/NR-EC2InfraAgentSSMAutomation.yml">NR-EC2InfraAgentSSMAutomation.yml</a> that you deploy in your AWS account as StackSet. You should deploy the StackSet instances in your AWS accounts across all regions where you plan to have New Relic Infrastructure agent installed on your EC2 instances.
+<p>This solution includes a CloudFormation template, viz. <a href="templates/NR-EC2InfraAgentSSMAutomation.template.yaml">NR-EC2InfraAgentSSMAutomation.template.yaml</a> that you deploy in your AWS account as StackSet. You should deploy the StackSet instances in your AWS accounts across all regions where you plan to have New Relic Infrastructure agent installed on your EC2 instances.
 Each deployment takes about 5 minutes to complete.</p>
 </div>
 <div class="olist arabic">
@@ -1468,11 +1499,6 @@ Each deployment takes about 5 minutes to complete.</p>
 <div class="paragraph">
 <p>Every piece of information exchanged between your instances and the New Relic Infrastructure agent is delivered securely. All communication from the agent occurs over HTTPS, using Transport Layer Security (TLS). To learn more about how New Relic addresses security in Infrastructure agent, see <a href="https://docs.newrelic.com/docs/infrastructure/infrastructure-monitoring/infrastructure-security/infrastructure-security">Infrastructure and security</a>. For more information about New Relic&#8217;s security measures, see our <a href="https://docs.newrelic.com/docs/using-new-relic/new-relic-security/security/security-matters-data-privacy-new-relic">security and privacy documentation</a>, or visit the <a href="https://newrelic.com/why-new-relic/security">New Relic security website</a>.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_other_useful_information">Other useful information</h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/faq_troubleshooting.adoc</code></strong></em></p>
 </div>
