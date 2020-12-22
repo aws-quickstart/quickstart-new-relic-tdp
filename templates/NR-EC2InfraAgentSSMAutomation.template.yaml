@@ -1,8 +1,8 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Configures the SSM and Event Bridge infrastructure required to deploy the New Relic agent for EC2 into an existing VPC. (qs-1rdf7jmtg)
+Description: Configures the SSM and Event Bridge infrastructure required to deploy the New Relic agent for EC2 instances. (qs-1rdf7jmtg)
 Metadata: 
   QuickStartDocumentation:
-    EntrypointName: "Launch into an existing VPC"
+    EntrypointName: "Deploy New Relic agent for EC2 instances"
   AWS::CloudFormation::Interface: 
     ParameterGroups: 
       - Label: 
