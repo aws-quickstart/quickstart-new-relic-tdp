@@ -83,9 +83,9 @@ Resources:
         detail:
           state:
             - running
-      Name: NR-EC2InfraAgentRule
+      # Name: NR-EC2InfraAgentRule
       Targets:
-        - Id: NR-EC2InfraAgentSSMAutomationDoc
+        - Id: !Ref NREC2InfraAgentSSMAutomationDoc
           RoleArn: !GetAtt NRSSMAutomationExecutionRole.Arn
           Arn: !Sub
             - arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:automation-definition/${DocumentName}:$DEFAULT
@@ -155,7 +155,7 @@ Resources:
     Type: AWS::SSM::Document
     Properties:
       DocumentType: Automation
-      Name: NR-EC2InfraAgentSSMAutomationDoc
+      # Name: NR-EC2InfraAgentSSMAutomationDoc
       Content:
         description: Automate NR Infra EC2 agent installation
         schemaVersion: '0.3'
@@ -245,3 +245,10 @@ Resources:
             action: aws:sleep
             inputs:
               Duration: PT1S
+Outputs:
+  NRSSMAutomationDoc:
+    Description: Name of the SSM Automatiomn document
+    Value: !Ref NREC2InfraAgentSSMAutomationDoc
+  EventRule:
+    Description: Name of the Event Bridge rule
+    Value: !Ref NREC2InfraAgentRule
