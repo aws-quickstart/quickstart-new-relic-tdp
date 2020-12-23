@@ -1,0 +1,13 @@
+
+.New Relic account info
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Enter your New Relic license key.
+(`NewRelicLicenseKey`)|`**__Requires input__**`|(Required) Enter your New Relic license key.
+|===
+.EC2 instance profile
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Do you want to create an EC2 instance profile that allows Systems Manager core service functionality?
+(`CreateEC2InstanceProfile`)|`No`|Create an EC2 instance profile that allows Systems Manager core service functionality
+|===

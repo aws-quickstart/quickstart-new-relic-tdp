@@ -1,1 +1,3 @@
-// placeholder
+
+=== Deploy New Relic agent for EC2 instances
+include::NR-EC2InfraAgentSSMAutomation.template.adoc[]
