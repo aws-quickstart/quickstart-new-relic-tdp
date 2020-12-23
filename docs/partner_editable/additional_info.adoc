@@ -2,22 +2,26 @@
 //Should any sections not be applicable, remove them
 
 == Test the deployment
-// If steps are required to test the deployment, add them here. If not, remove the heading
+To test the solution, log into your AWS account and make sure you choose a region where StackSet instance is deployed, and launch an EC2 instance. Make sure that:
 
-== Post-deployment steps
-// If post-deployment steps are required, add them here. If not, remove the heading
+. AMI is supported by New Relic Infrastructure agent after reviewing the https://docs.newrelic.com/docs/infrastructure/install-infrastructure-agent/get-started/requirements-infrastructure-agent[requirements for the infrastructure agent].
+. The SSM Agent is installed by default, or install it yourself, preferably at launch or afterwards.
+. The instance profile has https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html[permissions to run SSM commands] on the EC2 instance. If you can't create a new or use any existing instance profile, use the one created by the deployment (`NRSSMInstanceProfile`). The solution creates the instance profile when you set the CloudFormation template parameter, `CreateEC2InstanceProfile` to `Yes`.
+. Add the tag with name `NR-Infrastructure` and set the value to `Install`. This tag key-value pair allows the automation workflow to automatically install the New Relic Infrastructure agent on the EC2 instance, as soon as it is launched and in running state.
+
+Connect to your EC2 instance using your method of choice. Once you are connected, open a terminal client and run `newrelic-infra --version`.
+
+This will display the New Relic Infrastructure agent version info. This confirms that the agent was successfully installed on the EC2 instance, and you should now be able to monitor the instance from your New Relic account.
+
+Log into your https://one.newrelic.com/[New Relic account] and navigate to https://one.newrelic.com/launcher/nr1-core.explorer[Entity explorer] and look for the EC2 instance in the `Hosts` page. You can launch more instances using a variety of different AMIs supported by New Relic Infrastructure agent and you will see that they all automatically show up in your New Relic account.
 
 == Best practices for using {partner-product-short-name} on AWS
 // Provide post-deployment best practices for using the technology on AWS, including considerations such as migrating data, backups, ensuring high performance, high availability, etc. Link to software documentation for detailed information.
 
-_Add any best practices for using the software._
+See https://docs.newrelic.com/docs/new-relic-solutions/best-practices-guides/full-stack-observability/infrastructure-monitoring-best-practices-guide[Infrastructure monitoring best practices guide] and https://blog.newrelic.com/product-news/new-relic-infrastructure-getting-started-best-practices/[Getting Started with New Relic Infrastructure].
 
 == Security
 // Provide post-deployment best practices for using the technology on AWS, including considerations such as migrating data, backups, ensuring high performance, high availability, etc. Link to software documentation for detailed information.
 
-_Add any security-related information._
+Every piece of information exchanged between your instances and the New Relic Infrastructure agent is delivered securely. All communication from the agent occurs over HTTPS, using Transport Layer Security (TLS). To learn more about how New Relic addresses security in Infrastructure agent, see https://docs.newrelic.com/docs/infrastructure/infrastructure-monitoring/infrastructure-security/infrastructure-security[Infrastructure and security]. For more information about New Relic's security measures, see our https://docs.newrelic.com/docs/using-new-relic/new-relic-security/security/security-matters-data-privacy-new-relic[security and privacy documentation], or visit the https://newrelic.com/why-new-relic/security[New Relic security website].  
 
-== Other useful information
-//Provide any other information of interest to users, especially focusing on areas where AWS or cloud usage differs from on-premises usage.
-
-_Add any other details that will help the customer use the software on AWS._
