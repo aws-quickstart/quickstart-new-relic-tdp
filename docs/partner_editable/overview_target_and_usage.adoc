@@ -2,9 +2,9 @@
 // Identify your target audience and explain how/why they would use this Quick Start.
 //Avoid borrowing text from third-party websites (copying text from AWS service documentation is fine). Also, avoid marketing-speak, focusing instead on the technical aspect.
 
-This Quick Start reference deployment guide provides instructions for deploying  {partner-product-short-name} Quick Start reference architecture on the AWS Cloud.
+This Quick Start reference deployment guide provides instructions for deploying {partner-product-name} Quick Start reference architecture on the AWS Cloud.
 
-This Quick Start is for New Relic customers who use AWS to launch applications in https://aws.amazon.com/ec2[Amazon Elastic Compute Cloud (Amazon EC2)^] instances and monitor these instances, by using https://newrelic.com/integrations/aws-ec2-integration[New Relic's EC2 Infrastructure monitoring^] and the infrastructure agent.
+This Quick Start is for {partner-product-short-name} customers who use AWS to launch applications in https://aws.amazon.com/ec2[Amazon Elastic Compute Cloud (Amazon EC2)^] instances and monitor these instances, by using https://newrelic.com/integrations/aws-ec2-integration[New Relic's EC2 Infrastructure monitoring^] and the infrastructure agent.
 
 The Quick Start aims at meetings these objectives: +
 
