@@ -1,11 +1,11 @@
 :quickstart-project-name: quickstart-new-relic-tdp
 :partner-product-name: New Relic's EC2 Infrastructure integration
 // For the following attribute, if you have no short name, enter the same name as partner-product-name.
-:partner-product-short-name: New Relic's EC2 Infrastructure integration
+:partner-product-short-name: New Relic
 // If there's no partner, comment partner-company-name and partner-contributors.
 :partner-company-name: New Relic
-:doc-month: December
-:doc-year: 2020
+:doc-month: February
+:doc-year: 2021
 // For the following two "contributor" attributes, if the partner agrees to include names in the byline, 
 // enter names for both partner-contributors and quickstart-contributors. 
 // Otherwise, delete all placeholder names: everything preceding "{partner-company-name}"  
