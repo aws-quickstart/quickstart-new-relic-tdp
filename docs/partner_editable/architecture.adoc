@@ -5,11 +5,11 @@ AWS Cloud.
 :xrefstyle: short
 [#architecture1]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../images/architecture-diagram.png[Architecture,width=100%,height=100%]
+image::../images/new-relic-architecture-diagram.png[Architecture,width=100%,height=100%]
 
 As shown in <<architecture1>>, the Quick Start sets up the following:
 
-* EC2 instance profile and a linked IAM role if you choose to create a new instance profile when launching the template.
+* Amazon Elastic Compute Cloud (Amazon EC2) instance profile and a linked IAM role if you choose to create a new instance profile when launching the template.
 * SSM Automation execution IAM role.
 * EventBridge rule.
 * SSM Automation document.

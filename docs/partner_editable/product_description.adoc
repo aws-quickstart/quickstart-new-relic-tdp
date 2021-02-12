@@ -2,9 +2,15 @@
 // Briefly describe the software. Use consistent and clear branding. 
 // Include the benefits of using the software on AWS, and provide details on usage scenarios.
 
-= AWS QuickStart for New Relic EC2 Infrastructure integration
+= AWS QuickStart for {partner-product-name}
 
-New Relic Infrastructure's integrations include an Amazon Elastic Compute Cloud (EC2) integration for reporting your EC2 metadata to New Relic products.
-Customers can make use of the New Relic Infrastructure agent to get a comprehensive, real-time view of their EC2 instances performance and status. You must install the Infrastructure agent on each EC2 host to see metrics from that host.
+{partner-product-name} is used for reporting your EC2 metadata to {partner-company-name} products.
+After you install the {partner-company-name} infrastructure agent on each EC2 host, you can view metrics from that host and get a comprehensive, real-time view of the performance and status of your EC2 instances. 
 
-The QuickStart relies on https://aws.amazon.com/systems-manager/[AWS Systems Manager] (SSM) https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html[Automation] and requires that EC2 instances have the https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html[SSM Agent] installed.
+This Quick Start relies on AWS Systems Manager Automation for managing deployment tasks and requires installation of the AWS Systems Manager Agent (SSM Agent) on all EC2 instances.
+
+See the following resources for more information:
+
+* https://aws.amazon.com/systems-manager/[AWS Systems Manager^]
+* https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html[AWS Systems Manager Automation^]
+* https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html[Working with SSM Agent^]

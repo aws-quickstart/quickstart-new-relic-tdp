@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="generator" content="Asciidoctor 2.0.12">
 <title>New Relic's EC2 Infrastructure integration on the AWS Cloud</title>
 <style>
 
@@ -791,9 +791,9 @@ p.footer-text a{color:#d7d8d8}
 <ul class="sectlevel1">
 <li><a href="#_overview">Overview</a></li>
 <li><a href="#_new_relics_ec2_infrastructure_integration_on_aws">New Relic&#8217;s EC2 Infrastructure integration on AWS</a></li>
-<li><a href="#_aws_quickstart_for_new_relic_ec2_infrastructure_integration">AWS QuickStart for New Relic EC2 Infrastructure integration</a>
+<li><a href="#_aws_quickstart_for_new_relics_ec2_infrastructure_integration">AWS QuickStart for New Relic&#8217;s EC2 Infrastructure integration</a>
 <ul class="sectlevel1">
-<li><a href="#_cost">Cost</a></li>
+<li><a href="#_aws_costs">AWS costs</a></li>
 <li><a href="#_software_licenses">Software licenses</a></li>
 <li><a href="#_architecture">Architecture</a></li>
 <li><a href="#_planning_the_deployment">Planning the deployment</a>
@@ -810,9 +810,8 @@ p.footer-text a{color:#d7d8d8}
 </ul>
 </li>
 <li><a href="#_test_the_deployment">Test the deployment</a></li>
-<li><a href="#_best_practices_for_using_new_relics_ec2_infrastructure_integration_on_aws">Best practices for using New Relic&#8217;s EC2 Infrastructure integration on AWS</a></li>
+<li><a href="#_best_practices_for_using_new_relic_on_aws">Best practices for using New Relic on AWS</a></li>
 <li><a href="#_security">Security</a></li>
-<li><a href="#_faq">FAQ</a></li>
 <li><a href="#_troubleshooting">Troubleshooting</a></li>
 <li><a href="#_parameter_reference">Parameter reference</a>
 <ul class="sectlevel2">
@@ -839,7 +838,7 @@ p.footer-text a{color:#d7d8d8}
 </div>
 </div>
 <div class="paragraph text-center">
-<p><strong>December 2020</strong><br>
+<p><strong>February 2021</strong><br>
 <em>Rohit Kaul, New Relic</em><br>
 <em>Dylan Owen, AWS Quick Start team</em></p>
 </div>
@@ -865,38 +864,51 @@ report bugs, or submit feature ideas for this Quick Start.
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This Quick Start reference deployment guide provides instructions for deploying  New Relic&#8217;s EC2 Infrastructure integration Quick Start reference architecture on the AWS Cloud.</p>
+<p>This Quick Start reference deployment guide provides instructions for deploying New Relic&#8217;s EC2 Infrastructure integration on the AWS Cloud.</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start is for New Relic customers who use AWS to launch applications in <a href="https://aws.amazon.com/ec2" target="_blank" rel="noopener">Amazon Elastic Compute Cloud (Amazon EC2)</a> instances and monitor these instances, by using <a href="https://newrelic.com/integrations/aws-ec2-integration" target="_blank" rel="noopener">New Relic&#8217;s EC2 Infrastructure monitoring</a> and the infrastructure agent.</p>
+<p>This Quick Start is for New Relic customers who use AWS to launch applications in Amazon Elastic Compute Cloud (Amazon EC2) instances with built-in monitoring using the New Relic infrastructure agent.</p>
 </div>
 <div class="paragraph">
-<p>The Quick Start aims at meetings these objectives:<br></p>
+<p>The Quick Start does the following:</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>Automate the process of deploying and managing the Infrastructure agent on EC2 instances across various operating systems and architectures.</p>
+<p>Automates the process of deploying and managing the infrastructure agent on EC2 instances across various operating systems and architectures.</p>
 </li>
 <li>
-<p>Control which EC2 instances to include for automatic installation of Infrastructure agent, using a tag on the instance. Creating a tag named`NR-Infrastructure` with a value of <code>Install</code> will deploy the agent on the EC2 instance.</p>
+<p>Controls which EC2 instances to include when installing the infrastructure agent by using a tag on the instance. The tag used to deploy the agent on the EC2 instances is named <em>+NR-Infrastructure+</em> with a value of <em>+Install+</em>.</p>
 </li>
 <li>
-<p>The solution works regardless of how <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/LaunchingAndUsingInstances.html" target="_blank" rel="noopener">EC2 instances are launched</a>. Using the Launch Instance Wizard in the <a href="https://aws.amazon.com/console/" target="_blank" rel="noopener">AWS Management Console</a>, an EC2 auto-scaling group, AWS CloudFormation templates or CDK, AWS CLI or AWS SDKs, using a standard or <a href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/what-is-image-builder.html" target="_blank" rel="noopener">golden AMI</a>, or using third party tools like <a href="https://www.terraform.io/" target="_blank" rel="noopener">Terraform</a>.</p>
+<p>Launches EC2 instances using a variety of methods, including the launch instance wizard in the AWS Management Console, an EC2 Auto Scaling group, AWS CloudFormation templates, AWS Cloud Development Kit (AWS CDK), AWS Command Line Interface (AWS CLI), and AWS Software Development Kit (AWS SDK). You can use these methods to launch instance either using a standard or golden Amazon Machine Image (AMI) or third-party tools such as Terraform.</p>
 </li>
 <li>
-<p>The solution launches a <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html" target="_blank" rel="noopener">StackSet</a> so it can be easily deployed across multiple regions and accounts. This makes the installation of EC2 agent seamless across your multi-account, and multi-region AWS environment.</p>
+<p>Launches an AWS CloudFormation StackSet for installing the infrastructure agent across multiple Regions and accounts.</p>
 </li>
 <li>
-<p>If you have a large number of EC2 instances in your AWS account(s), and you want to monitor them with New Relic, the SSM Automation can be run on-demand so you can seamlessly install the Infrastructure agent using the automation targeting all instances.</p>
+<p>Provides option to run the SSM Agent on demand, allowing you to automate the installation of the infrastructure agent on all EC2 instances. This option is especially useful when you want to monitor a large number of EC2 instances in your AWS accounts.</p>
 </li>
 <li>
-<p>If you&#8217;re using <a href="https://aws.amazon.com/controltower/" target="_blank" rel="noopener">AWS Control Tower</a>, the template can be added into your <a href="https://docs.aws.amazon.com/controltower/latest/userguide/customize-landing-zone.html" target="_blank" rel="noopener">AWS Control Tower landing zone customization</a> to automatically deploy the solution for you every time a new account is enrolled.</p>
+<p>When using AWS Control Tower, provides option to add the template to your Control Tower landing zone customization to automatically deploy the Quick Start every time you enroll a new account.</p>
 </li>
 <li>
-<p>The solution works for EC2 instances running in <a href="https://aws.amazon.com/outposts/" target="_blank" rel="noopener">AWS Outposts</a>.</p>
+<p>Supports EC2 instances running in AWS Outposts.</p>
 </li>
-</ol>
+</ul>
+</div>
+<div class="paragraph">
+<p>For more information, see the following resources:
+ * <a href="https://aws.amazon.com/ec2" target="_blank" rel="noopener">Amazon EC2</a>
+ * <a href="https://newrelic.com/integrations/aws-ec2-integration" target="_blank" rel="noopener">Amazon EC2 monitoring integration</a>
+ * <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/LaunchingAndUsingInstances.html" target="_blank" rel="noopener">Launch your EC2 instance</a>
+ * <a href="https://aws.amazon.com/console/" target="_blank" rel="noopener">AWS Management Console</a>
+ * <a href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/what-is-image-builder.html" target="_blank" rel="noopener">What is EC2 Image Builder?</a>
+ * <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html" target="_blank" rel="noopener">Working with AWS CloudFormation StackSets</a>
+ * <a href="https://aws.amazon.com/controltower/" target="_blank" rel="noopener">AWS Control Tower</a>
+ * <a href="https://docs.aws.amazon.com/controltower/latest/userguide/customize-landing-zone.html" target="_blank" rel="noopener">Walkthrough: Customize Your AWS Control Tower Landing Zone</a>
+ * <a href="https://aws.amazon.com/outposts/" target="_blank" rel="noopener">AWS Outposts</a>
+ * <a href="https://www.terraform.io/" target="_blank" rel="noopener">Terraform</a></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -918,24 +930,39 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 
 </div>
 </div>
-<h1 id="_aws_quickstart_for_new_relic_ec2_infrastructure_integration" class="sect0">AWS QuickStart for New Relic EC2 Infrastructure integration</h1>
+<h1 id="_aws_quickstart_for_new_relics_ec2_infrastructure_integration" class="sect0">AWS QuickStart for New Relic&#8217;s EC2 Infrastructure integration</h1>
 <div class="openblock partintro">
 <div class="content">
 <div class="paragraph">
-<p>New Relic Infrastructure&#8217;s integrations include an Amazon Elastic Compute Cloud (EC2) integration for reporting your EC2 metadata to New Relic products.
-Customers can make use of the New Relic Infrastructure agent to get a comprehensive, real-time view of their EC2 instances performance and status. You must install the Infrastructure agent on each EC2 host to see metrics from that host.</p>
+<p>New Relic&#8217;s EC2 Infrastructure integration is used for reporting your EC2 metadata to New Relic products.
+After you install the New Relic infrastructure agent on each EC2 host, you can view metrics from that host and get a comprehensive, real-time view of the performance and status of your EC2 instances.</p>
 </div>
 <div class="paragraph">
-<p>The QuickStart relies on <a href="https://aws.amazon.com/systems-manager/">AWS Systems Manager</a> (SSM) <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html">Automation</a> and requires that EC2 instances have the <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html">SSM Agent</a> installed.</p>
+<p>This Quick Start relies on AWS Systems Manager Automation for managing deployment tasks and requires installation of the AWS Systems Manager Agent (SSM Agent) on all EC2 instances.</p>
+</div>
+<div class="paragraph">
+<p>See the following resources for more information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://aws.amazon.com/systems-manager/" target="_blank" rel="noopener">AWS Systems Manager</a></p>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html" target="_blank" rel="noopener">AWS Systems Manager Automation</a></p>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html" target="_blank" rel="noopener">Working with SSM Agent</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_cost">Cost</h2>
+<h2 id="_aws_costs">AWS costs</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You are responsible for the cost of the AWS services used while running
-this Quick Start. There is no additional cost for
+<p>You are responsible for the cost of the AWS services and any third-party licenses used while running this Quick Start. There is no additional cost for
 using the Quick Start.</p>
 </div>
 <div class="paragraph">
@@ -962,7 +989,7 @@ After you deploy the Quick Start, <a href="https://docs.aws.amazon.com/awsaccoun
 <h2 id="_software_licenses">Software licenses</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This Quick Start requires no licenses to deploy and use, other than your New Relic license key which is linked with your New Relic account. If you are using third party vendor software on your EC2 instances, you are responsible for licensing from vendors such as Microsoft, SAP, Oracle, and IBM. To learn more, see <a href="https://aws.amazon.com/license-manager/">AWS License Manager</a>.</p>
+<p>This Quick Start requires a New Relic license key, which is available with your New Relic account. If you are using a third-party software vendor (such as Microsoft, SAP, Oracle, or IBM) with your EC2 instances, you are responsible for complying with the license agreements that are required by that software vendor. To learn more about managing software licenses with third-party vendors, see <a href="https://aws.amazon.com/license-manager/">AWS License Manager</a>.</p>
 </div>
 </div>
 </div>
@@ -970,14 +997,14 @@ After you deploy the Quick Start, <a href="https://docs.aws.amazon.com/awsaccoun
 <h2 id="_architecture">Architecture</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Deploying this Quick Start builds the following New Relic&#8217;s EC2 Infrastructure integration environment in the
+<p>Deploying this Quick Start builds the following New Relic environment in the
 AWS Cloud.</p>
 </div>
 <div id="architecture1" class="imageblock">
 <div class="content">
-<img src="images/architecture-diagram.png" alt="Architecture" width="100%" height="100%">
+<img src="images/new-relic-architecture-diagram.png" alt="Architecture" width="100%" height="100%">
 </div>
-<div class="title">Figure 1. Quick Start architecture for New Relic&#8217;s EC2 Infrastructure integration on AWS</div>
+<div class="title">Figure 1. Quick Start architecture for New Relic on AWS</div>
 </div>
 <div class="paragraph">
 <p>As shown in <a href="#architecture1">Figure 1</a>, the Quick Start sets up the following:</p>
@@ -985,7 +1012,7 @@ AWS Cloud.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>EC2 instance profile and a linked IAM role if you choose to create a new instance profile when launching the template.</p>
+<p>Amazon Elastic Compute Cloud (Amazon EC2) instance profile and a linked IAM role if you choose to create a new instance profile when launching the template.</p>
 </li>
 <li>
 <p>SSM Automation execution IAM role.</p>
@@ -1009,7 +1036,10 @@ AWS Cloud.</p>
 <div class="sect2">
 <h3 id="_specialized_knowledge">Specialized knowledge</h3>
 <div class="paragraph">
-<p>This deployment requires a moderate level of familiarity with AWS services. If you’re new to AWS, visit <a href="https://aws.amazon.com/getting-started/" target="_blank" rel="noopener">Getting Started with AWS</a> and <a href="https://aws.amazon.com/training/" target="_blank" rel="noopener">Training and Certification</a>. These sites provide materials for learning how to design, deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
+<p>This deployment requires a moderate level of familiarity with
+AWS services. If you’re new to AWS, see <a href="https://aws.amazon.com/getting-started/" target="_blank" rel="noopener">Getting Started Resource Center</a>
+and <a href="https://aws.amazon.com/training/" target="_blank" rel="noopener">AWS Training and Certification</a>. These sites provide materials for learning how to design,
+deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1024,12 +1054,12 @@ AWS Cloud.</p>
 <div class="sect2">
 <h3 id="_technical_requirements">Technical requirements</h3>
 <div class="paragraph">
-<p>Before you launch the Quick Start, your account must be configured as specified in the following table. Otherwise, deployment might fail.</p>
+<p>Before you launch the Quick Start, review the following information and ensure that your account is properly configured. Otherwise, deployment might fail.</p>
 </div>
 <div class="sect3">
 <h4 id="_resource_quotas">Resource quotas</h4>
 <div class="paragraph">
-<p>If necessary, request <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">service quota increases</a> for the following resources. You might need to request increases if your existing deployment currently uses these resources and if this Quick Start deployment could result in exceeding the default quotas. The <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">Service Quotas console</a> displays your usage and quotas for some aspects of some services. For more information, see <a href="https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html" target="_blank" rel="noopener">What is Service Quotas?</a> and <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html" target="_blank" rel="noopener">AWS service quotas</a>.</p>
+<p>If necessary, request <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">service quota increases</a> for the following resources. You might request quota increases to avoid exceeding the default limits for any resources that are shared across multiple deployments. The <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">Service Quotas console</a> displays your usage and quotas for some aspects of some services. For more information, see <a href="https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html" target="_blank" rel="noopener">What is Service Quotas?</a> and <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html" target="_blank" rel="noopener">AWS service quotas</a>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1166,7 +1196,7 @@ AWS Cloud.</p>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html" target="_blank" rel="noopener">Managing AWS Regions</a>.
+Certain Regions are available on an opt-in basis. For more information, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html" target="_blank" rel="noopener">Managing AWS Regions</a>.
 </td>
 </tr>
 </table>
@@ -1180,43 +1210,43 @@ Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.
 </div>
 <div class="sect3">
 <h4 id="_prepare_your_aws_account">Prepare your AWS account</h4>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>You need <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html#jf_administrator">Administrator</a> access to your AWS account so that you can deploy, manage and test the solution. If you are using <a href="https://aws.amazon.com/controltower/">AWS Control Tower</a>, it is recommended you deploy the solution to AWS Control Tower <a href="https://docs.aws.amazon.com/controltower/latest/userguide/how-control-tower-works.html#what-is-master">management account</a> in your home region, where the AWS Control Tower <a href="https://aws.amazon.com/controltower/features/#Landing_Zone">landing zone</a> was set up.</p>
+<p>Obtain <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html#jf_administrator" target="_blank" rel="noopener">administrator access</a> to your AWS account so you can deploy, manage, and test the deployment. If using AWS Control Tower, deploy the solution to the Control Tower <a href="https://docs.aws.amazon.com/controltower/latest/userguide/how-control-tower-works.html#what-is-master" target="_blank" rel="noopener">management account</a> in your home Region where the Control Tower <a href="https://aws.amazon.com/controltower/features/#Landing_Zone" target="_blank" rel="noopener">landing zone</a> was configured.</p>
 </li>
 <li>
-<p>Make sure the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">permissions</a> for AWS CloudFormation StackSets have been setup in your AWS account. It is recommended that you use self-managed permissions for a better security posture and control. In case you are using the AWS Control Tower, you should use the pre-configured IAM Roles, <code>AWSControlTowerStackSetRole</code> and <code>AWSControlTowerExecution</code>.</p>
+<p>Set up <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html" target="_blank" rel="noopener">AWS CloudFormation stack set permissions</a> in your AWS account. Use self-managed permissions for better security and control. If using AWS Control Tower, use the preconfigured IAM Roles <code>AWSControlTowerStackSetRole</code> and <code>AWSControlTowerExecution</code>.</p>
 </li>
 <li>
-<p>The solution relies on <a href="https://aws.amazon.com/systems-manager/">AWS Systems Manager</a> (SSM) <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html">Automation</a> and requires that EC2 instances have the <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html">AWS Systems Manager Agent (SSM Agent)</a> installed.  SSM Agent is preinstalled, by default, on many Windows and Linux Amazon Machine Images (AMIs). If you are using an AMI that doesn&#8217;t have the agent installed, you must manually install the SSM Agent for <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-manual-agent-install.html">Linux</a> and <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-win.html">Windows</a>.</p>
+<p>Install <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html" target="_blank" rel="noopener">AWS Systems Manager Automation</a> and confirm that the <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html" target="_blank" rel="noopener">SSM Agent</a> is installed on the EC2 instances. By default, the SSM Agent is already installed on many Windows and Linux Amazon Machine Images (AMI). If you are using an AMI that doesn&#8217;t have the agent installed, you must manually install the SSM Agent. For installation instructions, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-manual-agent-install.html" target="_blank" rel="noopener">Manually install SSM Agent on EC2 instances for Linux</a> and <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-win.html" target="_blank" rel="noopener">Manually install SSM Agent on EC2 instances for Windows Server</a>.</p>
 </li>
-</ol>
+</ul>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_prepare_your_new_relic_account">Prepare your New Relic account</h4>
 <div class="paragraph">
-<p>You need an active <a href="https://one.newrelic.com/">New Relic account</a> using the <a href="https://docs.newrelic.com/docs/accounts/accounts-billing/new-relic-one-pricing-users/pricing-billing">New Relic One pricing plan</a> with Standard or higher pricing tier. If you don&#8217;t already have an account, you may <a href="https://aws.amazon.com/marketplace/pp/B08L5FQMTG">signup</a> for a free account.</p>
+<p>Confirm that you have an active New Relic account. You can create an account using the <a href="https://docs.newrelic.com/docs/accounts/accounts-billing/new-relic-one-pricing-users/pricing-billing" target="_blank" rel="noopener">New Relic One pricing plan</a>. Be sure to choose a Standard, Pro, or Enterprise plan for access to administrator features and support. If you don&#8217;t already have a New Relic account, you can sign up for a free one in the <a href="https://aws.amazon.com/marketplace/pp/B08L5FQMTG" target="_blank" rel="noopener">AWS Marketplace</a>. After setting up your New Relic account, <a href="https://one.newrelic.com/" target="_blank" rel="noopener">log in</a> to get started.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_deployment_options">Deployment options</h4>
 <div class="paragraph">
-<p>This Quick Start provides following deployment options:</p>
+<p>This Quick Start provides the following deployment options:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Deploy New Relic&#8217;s EC2 Infrastructure integration as CloudFormation StackSet</strong>. This option is recommended and is especially useful when you are dealing with EC2 instances spanning across multiple regions and accounts.</p>
+<p><strong>Deploy New Relic as CloudFormation StackSet</strong>. This recommended option is useful when your environment includes EC2 instances that span across multiple Regions and accounts.</p>
 </li>
 <li>
-<p><strong>Deploy New Relic&#8217;s EC2 Infrastructure integration as CloudFormation Stack</strong>. This option is mostly useful for testing or troubleshooting, where you want to quickly deploy the stack in a given region, and then test the automation to see if it works as you expect it to.</p>
+<p><strong>Deploy New Relic as CloudFormation stack</strong>. This option is useful for testing or troubleshooting, for example when you want to quickly deploy the stack in a given Region, and then test the automation to confirm that it works as expected.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The Quick Start provides single template for these options. Use either CloudFormation StackSet or Stack to launch it.</p>
+<p>The Quick Start provides a single template for both options. Use either the CloudFormation StackSet or Stack to launch the Quick Start.</p>
 </div>
 </div>
 </div>
@@ -1247,7 +1277,7 @@ Certain Regions are available on an opt-in basis. See <a href="https://docs.aws.
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-If you’re deploying New Relic&#8217;s EC2 Infrastructure integration to monitor EC2 instances in private subnet without Internet access, you need to <a href="https://aws.amazon.com/premiumsupport/knowledge-center/ec2-systems-manager-vpc-endpoints/">enable Systems Manager access for private instances</a>.
+If you’re deploying New Relic to monitor EC2 instances in private subnet without Internet access, you need to <a href="https://aws.amazon.com/premiumsupport/knowledge-center/ec2-systems-manager-vpc-endpoints/">enable Systems Manager access for private instances</a>.
 </td>
 </tr>
 </table>
@@ -1281,7 +1311,7 @@ You are responsible for the cost of the AWS services used while running this Qui
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy New Relic&#8217;s EC2 Infrastructure integration into a single AWS Account</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy New Relic into a single AWS Account</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_template_permalink" target="_blank" rel="noopener">View template</a></p></td>
 </tr>
 <tr>
@@ -1293,7 +1323,7 @@ You are responsible for the cost of the AWS services used while running this Qui
 <div class="olist arabic">
 <ol class="arabic" start="2">
 <li>
-<p>Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where the network infrastructure for New Relic&#8217;s EC2 Infrastructure integration is built. The template is launched in the us-east-1 Region by default.</p>
+<p>Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where the network infrastructure for New Relic is built. The template is launched in the us-east-1 Region by default.</p>
 </li>
 </ol>
 </div>
@@ -1375,7 +1405,7 @@ Each deployment takes about 5 minutes to complete.</p>
 <p>Choose <strong>Create stack</strong> to deploy the stack.</p>
 </li>
 <li>
-<p>Monitor the status of the stack. When the status is <strong>CREATE_COMPLETE</strong>, the New Relic&#8217;s EC2 Infrastructure integration deployment is ready.</p>
+<p>Monitor the status of the stack. When the status is <strong>CREATE_COMPLETE</strong>, the New Relic deployment is ready.</p>
 </li>
 <li>
 <p>Use the values displayed in the <strong>Outputs</strong> tab for the stack, as shown in <a href="#cfn_outputs">Figure 2</a>, to view the created resources.</p>
@@ -1386,7 +1416,7 @@ Each deployment takes about 5 minutes to complete.</p>
 <div class="content">
 <a class="image" href="images/cfn_outputs.png"><img src="images/cfn_outputs.png" alt="cfn_outputs" width="100%" height="100%"></a>
 </div>
-<div class="title">Figure 2. New Relic&#8217;s EC2 Infrastructure integration outputs after successful deployment</div>
+<div class="title">Figure 2. New Relic outputs after successful deployment</div>
 </div>
 </div>
 </div>
@@ -1396,40 +1426,47 @@ Each deployment takes about 5 minutes to complete.</p>
 <h2 id="_test_the_deployment">Test the deployment</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To test the solution, log into your AWS account and make sure you choose a region where StackSet instance is deployed, and launch an EC2 instance. Make sure that:</p>
+<p>To test the deployment, log in to your AWS account, choose the Region where the StackSet instance is deployed, and launch an EC2 instance. Confirm the following:</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>AMI is supported by New Relic Infrastructure agent after reviewing the <a href="https://docs.newrelic.com/docs/infrastructure/install-infrastructure-agent/get-started/requirements-infrastructure-agent">requirements for the infrastructure agent</a>.</p>
+<p>Review the <a href="https://docs.newrelic.com/docs/infrastructure/install-infrastructure-agent/get-started/requirements-infrastructure-agent">requirements for the infrastructure agent</a> to confirm that it supports the the AMI.</p>
 </li>
 <li>
-<p>The SSM Agent is installed by default, or install it yourself, preferably at launch or afterwards.</p>
+<p>Confirm that the SSM Agent is installed. The agent can be installed either by default or manually, preferably at launch or afterwards.</p>
 </li>
 <li>
-<p>The instance profile has <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html">permissions to run SSM commands</a> on the EC2 instance. If you can&#8217;t create a new or use any existing instance profile, use the one created by the deployment (<code>NRSSMInstanceProfile</code>). The solution creates the instance profile when you set the CloudFormation template parameter, <code>CreateEC2InstanceProfile</code> to <code>Yes</code>.</p>
+<p>Confirm that the instance profile has permissions to run SSM commands on the EC2 instance. If you can&#8217;t create a new instance profile or use an existing one, use the profile that was created by the deployment (<code>NRSSMInstanceProfile</code>). The deployment creates the instance profile when you set the CloudFormation template parameter <code>CreateEC2InstanceProfile</code> to <code>Yes</code>. For more information, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html" target="_blank" rel="noopener">Create an IAM instance profile for Systems Manager</a>.</p>
 </li>
 <li>
-<p>Add the tag with name <code>NR-Infrastructure</code> and set the value to <code>Install</code>. This tag key-value pair allows the automation workflow to automatically install the New Relic Infrastructure agent on the EC2 instance, as soon as it is launched and in running state.</p>
+<p>Add the tag named <code>NR-Infrastructure</code> and set the value to <strong>Install</strong>. This tag key-value pair allows the automation workflow to automatically install the New Relic infrastructure agent on the EC2 instance as soon as it is launched and in running state.</p>
 </li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Connect to your EC2 instance using your method of choice. Once you are connected, open a terminal client and run <code>newrelic-infra --version</code>.</p>
+</ul>
 </div>
 <div class="paragraph">
-<p>This will display the New Relic Infrastructure agent version info. This confirms that the agent was successfully installed on the EC2 instance, and you should now be able to monitor the instance from your New Relic account.</p>
+<p>Connect to your EC2 instance, open a terminal client, and run the <code>newrelic-infra --version</code> command. Running this command displays the New Relic infrastructure agent version information and confirms that the agent was successfully installed on the EC2 instance. Now you can monitor the instance from your New Relic account.</p>
 </div>
 <div class="paragraph">
-<p>Log into your <a href="https://one.newrelic.com/">New Relic account</a> and navigate to <a href="https://one.newrelic.com/launcher/nr1-core.explorer">Entity explorer</a> and look for the EC2 instance in the <code>Hosts</code> page. You can launch more instances using a variety of different AMIs supported by New Relic Infrastructure agent and you will see that they all automatically show up in your New Relic account.</p>
+<p>Log in to your <a href="https://one.newrelic.com/">New Relic account</a>, navigate to the <a href="https://one.newrelic.com/launcher/nr1-core.explorer">entity explorer</a>, and look for the EC2 instance on the <strong>Hosts</strong> page. You can launch more instances using a variety of different AMIs that are supported by the New Relic infrastructure agent. These instances automatically show up in your New Relic account.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_best_practices_for_using_new_relics_ec2_infrastructure_integration_on_aws">Best practices for using New Relic&#8217;s EC2 Infrastructure integration on AWS</h2>
+<h2 id="_best_practices_for_using_new_relic_on_aws">Best practices for using New Relic on AWS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>See <a href="https://docs.newrelic.com/docs/new-relic-solutions/best-practices-guides/full-stack-observability/infrastructure-monitoring-best-practices-guide">Infrastructure monitoring best practices guide</a> and <a href="https://blog.newrelic.com/product-news/new-relic-infrastructure-getting-started-best-practices/">Getting Started with New Relic Infrastructure</a>.</p>
+<p>See the following two resources:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.newrelic.com/docs/new-relic-solutions/best-practices-guides/full-stack-observability/infrastructure-monitoring-best-practices-guide">Infrastructure monitoring best practices guide</a></p>
+</li>
+<li>
+<p><a href="https://blog.newrelic.com/product-news/new-relic-infrastructure-getting-started-best-practices/">Getting Started with New Relic Infrastructure</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1437,12 +1474,15 @@ Each deployment takes about 5 minutes to complete.</p>
 <h2 id="_security">Security</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Every piece of information exchanged between your instances and the New Relic Infrastructure agent is delivered securely. All communication from the agent occurs over HTTPS, using Transport Layer Security (TLS). To learn more about how New Relic addresses security in Infrastructure agent, see <a href="https://docs.newrelic.com/docs/infrastructure/infrastructure-monitoring/infrastructure-security/infrastructure-security">Infrastructure and security</a>. For more information about New Relic&#8217;s security measures, see our <a href="https://docs.newrelic.com/docs/using-new-relic/new-relic-security/security/security-matters-data-privacy-new-relic">security and privacy documentation</a>, or visit the <a href="https://newrelic.com/why-new-relic/security">New Relic security website</a>.</p>
+<p>All information exchanged between your instances and the New Relic infrastructure agent is delivered securely. The agent communicates over HTTPS, using Transport Layer Security (TLS).</p>
+</div>
+<div class="paragraph">
+<p>To learn more about how New Relic addresses security in the infrastructure agent, see <a href="https://docs.newrelic.com/docs/infrastructure/infrastructure-monitoring/infrastructure-security/infrastructure-security">Infrastructure and security</a>. For more information about New Relic&#8217;s security measures, see the <a href="https://docs.newrelic.com/docs/using-new-relic/new-relic-security/security/security-matters-data-privacy-new-relic">security and privacy documentation</a>, or visit the <a href="https://newrelic.com/why-new-relic/security">New Relic security website</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_faq">FAQ</h2>
+<h2 id="_troubleshooting">Troubleshooting</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><strong>Q.</strong> I encountered a <strong>CREATE_FAILED</strong> error when I launched the Quick Start.</p>
@@ -1471,37 +1511,90 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 <div class="paragraph">
 <p><strong>A.</strong> Launch the Quick Start templates from the links in this guide or from another S3 bucket. If you deploy the templates from a local copy on your computer or from a location other than an S3 bucket, you might encounter template size limitations. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html" target="_blank" rel="noopener">AWS CloudFormation quotas</a>.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_troubleshooting">Troubleshooting</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p><strong>Q.</strong> I can&#8217;t connect to the instance I launched for testing, using Session Manager.</p>
+<p><strong>Q.</strong> I can&#8217;t connect to the instance I launched for testing using Session Manager.</p>
 </div>
 <div class="paragraph">
-<p><strong>A.</strong> Ensure that your instance is associated with an instance profile that is configured for use with the AWS Systems Manager service and that SSM agent is installed on the instance. For more information, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html">Create an IAM instance profile for Systems Manager</a>. Ensure that the security group associated with your instance allows incoming SSH traffic from your IP address. After you launch an instance, it can take a few minutes for the instance to be ready so that you can connect to it. Check that your instance has passed its status checks. You can view this information in the <strong>Status check</strong> column on the <strong>Instances</strong> page.
-If none of the above resolve the issue, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-troubleshooting.html">Troubleshooting Session Manager</a>. For general connection issues, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html">Troubleshooting connecting to your instance</a>.</p>
+<p><strong>A.</strong> Confirm that your instance is associated with an instance profile that is configured to use AWS Systems Manager and that the SSM Agent is installed on the instance. For more information, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html" target="_blank" rel="noopener">Create an IAM instance profile for Systems Manager</a>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Q.</strong> The New Relic Infrastructure agent is installed but no data shows up in New Relic.</p>
+<p>Also be sure that the security group associated with your instance allows incoming SSH traffic from your IP address.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+After you launch an instance, sometimes it takes a few minutes before you can connect to it. Check that your instance has passed the status checks. You can view this information in the <strong>Status check</strong> column on the <strong>Instances</strong> page.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p><strong>A.</strong> Ensure that the agent configuration file, <a href="https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#config-file">newrelic-infra.yml</a> contains a valid <code>license_key</code> and that matches with your <a href="https://docs.newrelic.com/docs/accounts/accounts-billing/account-setup/new-relic-license-key">New Relic license key</a>. Verify that no firewalls or proxies are blocking outbound connections from the agent process to the <a href="https://docs.newrelic.com/docs/apm/new-relic-apm/getting-started/networks#infrastructure">Infrastructure domains and ports</a>. For accounts installing the infrastructure agent for the first time, the latency for data appearing in the Infrastructure monitoring UI can be tens of minutes. If you&#8217;ve verified the installation and no obvious error conditions appear in the verbose logs, monitor the Infrastructure UI for a longer period before contacting <a href="https://support.newrelic.com/">New Relic Support</a> for assistance.
-For more details, see <a href="https://docs.newrelic.com/docs/infrastructure/infrastructure-troubleshooting/troubleshoot-infrastructure/no-data-appears-infrastructure">No data appears (Infrastructure)</a> and <a href="https://docs.newrelic.com/docs/infrastructure/install-infrastructure-agent/manage-your-agent/troubleshoot-running-infrastructure-agent">Troubleshoot a running infrastructure agent</a>.</p>
+<p>If you have tried these steps and the the issue is still not resolved, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-troubleshooting.html" target="_blank" rel="noopener">Troubleshooting Session Manager</a>. For general connection issues, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html" target="_blank" rel="noopener">Troubleshooting connecting to your instance</a>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Q</strong> The New Relic Infrastructure agent is not running and there are no logs.</p>
+<p><strong>Q.</strong> The New Relic infrastructure agent is installed, but no data shows up in New Relic.</p>
 </div>
 <div class="paragraph">
-<p><strong>A</strong> Make sure you tagged the instance appropriately, with <code>NR-Infrastructure</code> set to <code>Install</code>. Verify the AMI&#8217;s OS and architecture is supported by New Relic Infrastructure agent. If this does not seem to be a problem, investigate the SSM Automation that the solution runs in response to the EC2 instance starting up, and see if it ran into any errors.</p>
+<p><strong>A.</strong> Be sure that the agent configuration file (<a href="https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#config-file" target="_blank" rel="noopener">newrelic-infra.yml</a>) contains a valid license key (<code>license_key</code>) and that it matches your <a href="https://docs.newrelic.com/docs/accounts/accounts-billing/account-setup/new-relic-license-key" target="_blank" rel="noopener">New Relic license key</a>.</p>
 </div>
 <div class="paragraph">
-<p>SSM Automation reports detailed status information about the various statuses an automation action or step goes through when you run an automation, and for the overall automation. Navigate to <a href="https://console.aws.amazon.com/systems-manager/">Systems Manager</a> console. Make sure you select the same region where you launched your instance. In the navigation pane, choose <strong>Automation</strong>. While you are in the <strong>Executions</strong> tab, look for the document with name <code>NR-EC2InfraAgentSSMAutomationDoc</code> and notice the <strong>Status</strong> next to it. If there is an error, check the message for possible root cause and address or report the error accordingly. In case you see no meaningful error message, try <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-working-executing-manually.html">Running the automation manually</a>.</p>
+<p>Also verify that no firewalls or proxies are blocking outbound connections from the agent process to the infrastructure domains and ports. For more information about domains and ports, see <a href="https://docs.newrelic.com/docs/apm/new-relic-apm/getting-started/networks#infrastructure" target="_blank" rel="noopener">Infrastructure agents</a>.</p>
 </div>
 <div class="paragraph">
-<p>If the automation seems to have run with no errors, See
-<a href="https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/troubleshooting/agent-not-starting-there-are-no-logs">Troubleshoot no logs</a> and <a href="https://docs.newrelic.com/docs/infrastructure/infrastructure-troubleshooting/troubleshoot-logs/generate-logs-troubleshooting-infrastructure">Generate logs for troubleshooting the infrastructure agent</a>.</p>
+<p>For accounts installing the infrastructure agent for the first time, several minutes may pass before you see data in the infrastructure monitoring UI. If you&#8217;ve verified the installation and no obvious error conditions appear in the verbose logs, monitor the infrastructure UI for a while longer. If the data still does not appear, contact <a href="https://support.newrelic.com/" target="_blank" rel="noopener">New Relic Support</a> for assistance.
+For more information, see the following resources:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.newrelic.com/docs/infrastructure/infrastructure-troubleshooting/troubleshoot-infrastructure/no-data-appears-infrastructure" target="_blank" rel="noopener">No data appears (Infrastructure)</a></p>
+</li>
+<li>
+<p><a href="https://docs.newrelic.com/docs/infrastructure/install-infrastructure-agent/manage-your-agent/troubleshoot-running-infrastructure-agent" target="_blank" rel="noopener">Troubleshoot a running infrastructure agent</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Q</strong> The New Relic infrastructure agent is not running and there are no logs.</p>
+</div>
+<div class="paragraph">
+<p><strong>A</strong> Make sure you tagged the instance appropriately, with <code>NR-Infrastructure</code> set to <code>Install</code>. Verify that the AMI&#8217;s operating system and architecture is supported by the New Relic infrastructure agent. If supported, investigate the SSM Automation that runs in response to the EC2 instance starting up, and see if it produced any errors.</p>
+</div>
+<div class="paragraph">
+<p>SSM Automation reports provide information about various statuses that an automation action or step goes through when you run an automation, and for the overall automation. To check status, do these steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to the Systems Manager console.</p>
+</li>
+<li>
+<p>Select the same Region where you launched your instance.</p>
+</li>
+<li>
+<p>In the navigation pane, choose <strong>Automation</strong>.</p>
+</li>
+<li>
+<p>In the <strong>Executions</strong> tab, locate the status message beside the document named <strong>NR-EC2InfraAgentSSMAutomationDoc</strong>. If an error has occurred, check the message for the possible root cause and address or report the error. If no error has occurred, try running the automation manually. For more information, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-working-executing-manually.html" target="_blank" rel="noopener">Running an automation manually</a>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For more troubleshooting, see the following resources:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/troubleshooting/agent-not-starting-there-are-no-logs">The agent is not starting and there are no logs</a></p>
+</li>
+<li>
+<p><a href="https://docs.newrelic.com/docs/infrastructure/infrastructure-troubleshooting/troubleshoot-logs/generate-logs-troubleshooting-infrastructure">Generate logs for troubleshooting the infrastructure agent</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1606,22 +1699,22 @@ and to share your customizations with others.</p>
 <p>This document is provided for informational purposes only. It represents AWS’s current product offerings and practices as of the date of issue of this document, which are subject to change without notice. Customers are responsible for making their own independent assessment of the information in this document and any use of AWS’s products or services, each of which is provided “as is” without warranty of any kind, whether expressed or implied. This document does not create any warranties, representations, contractual commitments, conditions, or assurances from AWS, its affiliates, suppliers, or licensors. The responsibilities and liabilities of AWS to its customers are controlled by AWS agreements, and this document is not part of, nor does it modify, any agreement between AWS and its customers.</p>
 </div>
 <div class="paragraph">
-<p>The software included with this paper is licensed under the Apache License, version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at <a href="http://aws.amazon.com/apache2.0/" class="bare">http://aws.amazon.com/apache2.0/</a> or in the accompanying "license" file. This code is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied. See the License for specific language governing permissions and limitations.</p>
+<p>The software included with this paper is licensed under the Apache License, version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at <a href="http://aws.amazon.com/apache2.0/" target="_blank" rel="noopener">http://aws.amazon.com/apache2.0/</a> or in the accompanying "license" file. This code is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied. See the License for specific language governing permissions and limitations.</p>
 </div>
 </div>
 </div>
 </div>
 <p class="footer-text">
 <!-- We can use document attributes: -->
-<!-- Generated with Asciidoctor v2.0.10. -->
-<a href="https://aws.amazon.com/privacy/">Privacy</a> | <a href="https://aws.amazon.com/terms/">Site terms</a> | &copy; 2020, Amazon Web Services, Inc. or its affiliates and New Relic. All rights reserved.
+<!-- Generated with Asciidoctor v2.0.12. -->
+<a href="https://aws.amazon.com/privacy/">Privacy</a> | <a href="https://aws.amazon.com/terms/">Site terms</a> | &copy; 2021, Amazon Web Services, Inc. or its affiliates and New Relic. All rights reserved.
 </p>
 </body>
 </html>
 <!--
 repo commit:
-2f704a205c5b7e7f8b0b1c3314e503274189d71c
+c01aaa6ca45546282bb1da428270474027a6385d
 
 submodule config:
--b0bb78547393d336a8d390347d40d2f152335e05 docs/boilerplate
++18d2093a989c1f974a5d1ba0dc3be0f08d4735de docs/boilerplate (heads/main)
 -->
