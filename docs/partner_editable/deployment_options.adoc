@@ -1,8 +1,8 @@
 // Edit this placeholder text to accurately describe your architecture.
 
-This Quick Start provides following deployment options:
+This Quick Start provides the following deployment options:
 
-* *Deploy {partner-product-short-name} as CloudFormation StackSet*. This option is recommended and is especially useful when you are dealing with EC2 instances spanning across multiple regions and accounts.
-* *Deploy {partner-product-short-name} as CloudFormation Stack*. This option is mostly useful for testing or troubleshooting, where you want to quickly deploy the stack in a given region, and then test the automation to see if it works as you expect it to.
+* *Deploy {partner-product-short-name} as CloudFormation StackSet*. This recommended option is useful when your environment includes EC2 instances that span across multiple Regions and accounts.
+* *Deploy {partner-product-short-name} as CloudFormation stack*. This option is useful for testing or troubleshooting, for example when you want to quickly deploy the stack in a given Region, and then test the automation to confirm that it works as expected.
 
-The Quick Start provides single template for these options. Use either CloudFormation StackSet or Stack to launch it.
+The Quick Start provides a single template for both options. Use either the CloudFormation StackSet or Stack to launch the Quick Start.
