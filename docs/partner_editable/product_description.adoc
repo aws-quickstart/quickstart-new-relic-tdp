@@ -5,11 +5,12 @@
 = AWS QuickStart for {partner-product-name}
 
 {partner-product-name} is used for reporting your EC2 metadata to {partner-company-name} products.
-After you install the {partner-company-name} Infrastructure agent on each EC2 host, you can view metrics from that host and get a comprehensive, real-time view of the performance and status of your EC2 instances. 
+After you install the {partner-company-name} infrastructure agent on each EC2 host, you can view metrics from that host and get a comprehensive, real-time view of the performance and status of your EC2 instances. 
 
 This Quick Start relies on AWS Systems Manager Automation for managing deployment tasks and requires installation of the AWS Systems Manager Agent (SSM Agent) on all EC2 instances.
 
 See the following resources for more information:
+
 * https://aws.amazon.com/systems-manager/[AWS Systems Manager^]
 * https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html[AWS Systems Manager Automation^]
 * https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html[Working with SSM Agent^]
