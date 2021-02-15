@@ -9,9 +9,11 @@ image::../images/new-relic-architecture-diagram.png[Architecture,width=100%,heig
 
 As shown in <<architecture1>>, the Quick Start sets up the following:
 
-* Amazon Elastic Compute Cloud (Amazon EC2) instance profile and a linked IAM role if you choose to create a new instance profile when launching the template.
-* SSM Automation execution IAM role.
-* EventBridge rule.
-* SSM Automation document.
+* (Optional) An Amazon Elastic Compute Cloud (Amazon EC2) instance profile with a linked AWS Identity and Access Management (IAM) role used for granting access to Systems Manager service functionality within the EC2 instance. You can attach this instance profile to existing EC2 instance and install the {partner-product-short-name} agent.*   
+* Systems Manager Automation execution IAM role to allow running of the SSM document on the EC2 instances.
+* EventBridge rule used to trigger the {partner-product-short-name} agent installation.
+* SSM Automation document for installing the {partner-product-short-name} agent.
+* Secrets manager used for storing the {partner-product-short-name} license key.
 
-[.small]#*The template skips the components marked by asterisks and prompts you for your New Relic License key and whether or not you want to create a new SSM instance profile for your EC2 instances.#
+
+[.small]#*The template prompts you for your {partner-product-short-name} license key and asks whether you want to create a new Systems Manager instance profile for your EC2 instances.#
