@@ -29,14 +29,8 @@ Deployments take about {deployment_time} to complete.
 
 . Sign in to your AWS account, and choose one of the following options to launch the AWS CloudFormation template. For help with choosing an option, see link:#_deployment_options[Deployment options] earlier in this guide.
 
-[cols=2*]
-|===
-^|http://qs_launch_permalink[Deploy {partner-product-short-name} into a single AWS Account^]
-^|http://qs_template_permalink[View template^]
-
-^|<<#Deploy_using_Stack_Sets>>
-^|
-|===
+* Deploy {partner-product-short-name} into a single AWS Account (view template)
+* link:#Deploy_using_Stack_Sets[Deploy {partner-product-short-name} using Stack Sets])
 
 [start=2]
 . Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where the network infrastructure for {partner-product-short-name} is built. The template is launched in the {default_deployment_region} Region by default.
