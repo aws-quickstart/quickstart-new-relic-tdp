@@ -17,6 +17,7 @@ The Quick Start does the following:
 * Supports EC2 instances running in AWS Outposts.
 
 For more information, see the following resources:
+
  * https://aws.amazon.com/ec2[Amazon EC2^]
  * https://newrelic.com/integrations/aws-ec2-integration[Amazon EC2 monitoring integration^]
  * https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/LaunchingAndUsingInstances.html[Launch your EC2 instance^]
