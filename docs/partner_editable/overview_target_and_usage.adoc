@@ -10,13 +10,14 @@ The Quick Start does the following:
 
 * Automates the process of deploying and managing the infrastructure agent on EC2 instances across various operating systems and architectures.
 * Controls which EC2 instances to include when installing the infrastructure agent by using a tag on the instance. The tag used to deploy the agent on the EC2 instances is named _+NR-Infrastructure+_ with a value of _+Install+_.
-* Launches EC2 instances using a variety of methods, including the launch instance wizard in the AWS Management Console, an EC2 Auto Scaling group, AWS CloudFormation templates, AWS Cloud Development Kit (AWS CDK), AWS Command Line Interface (AWS CLI), and AWS Software Development Kit (AWS SDK). You can use these methods to launch instance either using a standard or golden Amazon Machine Image (AMI) or third-party tools such as Terraform.
+* Launches EC2 instances using a variety of methods, including the launch instance wizard in the AWS Management Console, an EC2 Auto Scaling group, AWS CloudFormation templates, AWS Cloud Development Kit (AWS CDK), AWS Command Line Interface (AWS CLI), and AWS Software Development Kit (AWS SDK). You can use these methods to launch the instance either using a standard or golden Amazon Machine Image (AMI) or third-party tools such as Terraform.
 * Launches an AWS CloudFormation StackSet for installing the infrastructure agent across multiple Regions and accounts. 
-* Provides option to run the SSM Agent on demand, allowing you to automate the installation of the infrastructure agent on all EC2 instances. This option is especially useful when you want to monitor a large number of EC2 instances in your AWS accounts. 
-* When using AWS Control Tower, provides option to add the template to your Control Tower landing zone customization to automatically deploy the Quick Start every time you enroll a new account.
+* Provides the option to run the AWS Systems Manager Agent (SSM Agent) on demand, allowing you to automate the installation of the infrastructure agent on all EC2 instances. This option is especially useful when you want to monitor a large number of EC2 instances in your AWS accounts. 
+* When using AWS Control Tower, provides the option to add the template to your Control Tower landing zone customization to automatically deploy the Quick Start every time you enroll a new account.
 * Supports EC2 instances running in AWS Outposts.
 
 For more information, see the following resources:
+
  * https://aws.amazon.com/ec2[Amazon EC2^]
  * https://newrelic.com/integrations/aws-ec2-integration[Amazon EC2 monitoring integration^]
  * https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/LaunchingAndUsingInstances.html[Launch your EC2 instance^]
