@@ -9,11 +9,11 @@ image::../images/new-relic-architecture-diagram.png[Architecture,width=100%,heig
 
 As shown in <<architecture1>>, the Quick Start sets up the following:
 
-* (Optional) An Amazon Elastic Compute Cloud (Amazon EC2) instance profile with a linked AWS Identity and Access Management (IAM) role used for granting access to Systems Manager service functionality within the EC2 instance. You can attach this instance profile to existing EC2 instance and install the {partner-product-short-name} agent.*   
-* Systems Manager Automation execution IAM role to allow running of the SSM document on the EC2 instances.
-* EventBridge rule used to trigger the {partner-product-short-name} agent installation.
-* SSM Automation document for installing the {partner-product-short-name} agent.
-* Secrets manager used for storing the {partner-product-short-name} license key.
-
+* (Optional) An Amazon Elastic Compute Cloud (Amazon EC2) instance profile with a linked AWS Identity and Access Management (IAM) role used for granting access to Systems Manager service functionality within the EC2 instance. You can attach this instance profile to existing EC2 instances and install the {partner-product-short-name} infrastructure agent.*  
+* AWS Secrets Manager for storing the {partner-product-short-name} license key. 
+* An EventBridge rule to trigger installation of the {partner-product-short-name} infrastructure agent when the associated tag is used on the EC2 instance. 
+* A Systems Manager Automation execution IAM role to allow the EC2 instances to run the Systems Manager Automation runbook.
+* Systems Manager Automation runbook for installing the {partner-product-short-name} infrastructure agent. 
+* Systems Manager Command document to run the installation commands for the automation runbook. The Command document is public (not deployed) and can be shared with customers. 
 
 [.small]#*The template prompts you for your {partner-product-short-name} license key and asks whether you want to create a new Systems Manager instance profile for your EC2 instances.#

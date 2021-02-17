@@ -29,8 +29,13 @@ Deployments take about {deployment_time} to complete.
 
 . Sign in to your AWS account, and choose one of the following options to launch the AWS CloudFormation template. For help with choosing an option, see link:#_deployment_options[Deployment options] earlier in this guide.
 
-* Deploy {partner-product-short-name} into a single AWS Account (view template)
-* link:#Deploy_using_Stack_Sets[Deploy {partner-product-short-name} using Stack Sets])
+[cols=2*]
+|===
+^|https://fwd.aws/qvQnn[Deploy {partner-product-short-name} into a single AWS Account^]
+^|https://fwd.aws/Wjr9N[View template^]
+
+^|https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacksets/create[Deploy {partner-product-short-name} into a stack set^]
+^|https://aws-quickstart.s3.amazonaws.com/quickstart-new-relic-tdp/templates/NR-EC2InfraAgentSSMAutomation.template.yaml[View template^]
 
 [start=2]
 . Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where the network infrastructure for {partner-product-short-name} is built. The template is launched in the {default_deployment_region} Region by default.
