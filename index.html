@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>New Relic's EC2 Infrastructure integration on the AWS Cloud</title>
+<title>New Relic's EC2 Infrastructure on the AWS Cloud</title>
 <style>
 
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -790,9 +790,7 @@ p.footer-text a{color:#d7d8d8}
 <div id="toctitle"></div>
 <ul class="sectlevel1">
 <li><a href="#_overview">Overview</a></li>
-<li><a href="#_new_relics_ec2_infrastructure_integration_on_aws">New Relic&#8217;s EC2 Infrastructure integration on AWS</a></li>
-<li><a href="#_aws_quickstart_for_new_relics_ec2_infrastructure_integration">AWS QuickStart for New Relic&#8217;s EC2 Infrastructure integration</a>
-<ul class="sectlevel1">
+<li><a href="#_new_relics_ec2_infrastructure_on_aws">New Relic&#8217;s EC2 Infrastructure on AWS</a></li>
 <li><a href="#_aws_costs">AWS costs</a></li>
 <li><a href="#_software_licenses">Software licenses</a></li>
 <li><a href="#_architecture">Architecture</a></li>
@@ -823,14 +821,12 @@ p.footer-text a{color:#d7d8d8}
 <li><a href="#_github_repository">GitHub repository</a></li>
 <li><a href="#_notices">Notices</a></li>
 </ul>
-</li>
-</ul>
 </div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<h2 id="_new_relics_ec2_infrastructure_integration_on_the_aws_cloud" class="discrete text-center">New Relic&#8217;s EC2 Infrastructure integration on the AWS Cloud</h2>
+<h2 id="_new_relics_ec2_infrastructure_on_the_aws_cloud" class="discrete text-center">New Relic&#8217;s EC2 Infrastructure on the AWS Cloud</h2>
 <h2 id="_quick_start_reference_deployment" class="discrete text-left text-center">Quick Start Reference Deployment</h2>
 <div class="imageblock text-center">
 <div class="content">
@@ -864,7 +860,7 @@ report bugs, or submit feature ideas for this Quick Start.
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This Quick Start reference deployment guide provides instructions for deploying New Relic&#8217;s EC2 Infrastructure integration on the AWS Cloud.</p>
+<p>This Quick Start reference deployment guide provides instructions for deploying New Relic&#8217;s EC2 Infrastructure on the AWS Cloud.</p>
 </div>
 <div class="paragraph">
 <p>This Quick Start is for New Relic customers who use AWS to launch applications in Amazon Elastic Compute Cloud (Amazon EC2) instances with built-in monitoring using the New Relic infrastructure agent.</p>
@@ -881,16 +877,16 @@ report bugs, or submit feature ideas for this Quick Start.
 <p>Controls which EC2 instances to include when installing the infrastructure agent by using a tag on the instance. The tag used to deploy the agent on the EC2 instances is named <em>+NR-Infrastructure+</em> with a value of <em>+Install+</em>.</p>
 </li>
 <li>
-<p>Launches EC2 instances using a variety of methods, including the launch instance wizard in the AWS Management Console, an EC2 Auto Scaling group, AWS CloudFormation templates, AWS Cloud Development Kit (AWS CDK), AWS Command Line Interface (AWS CLI), and AWS Software Development Kit (AWS SDK). You can use these methods to launch instance either using a standard or golden Amazon Machine Image (AMI) or third-party tools such as Terraform.</p>
+<p>Launches EC2 instances using a variety of methods, including the launch instance wizard in the AWS Management Console, an EC2 Auto Scaling group, AWS CloudFormation templates, AWS Cloud Development Kit (AWS CDK), AWS Command Line Interface (AWS CLI), and AWS Software Development Kit (AWS SDK). You can use these methods to launch the instance either using a standard or golden Amazon Machine Image (AMI) or third-party tools such as Terraform.</p>
 </li>
 <li>
 <p>Launches an AWS CloudFormation StackSet for installing the infrastructure agent across multiple Regions and accounts.</p>
 </li>
 <li>
-<p>Provides option to run the SSM Agent on demand, allowing you to automate the installation of the infrastructure agent on all EC2 instances. This option is especially useful when you want to monitor a large number of EC2 instances in your AWS accounts.</p>
+<p>Provides the option to run the AWS Systems Manager Agent (SSM Agent) on demand, allowing you to automate the installation of the infrastructure agent on all EC2 instances. This option is especially useful when you want to monitor a large number of EC2 instances in your AWS accounts.</p>
 </li>
 <li>
-<p>When using AWS Control Tower, provides option to add the template to your Control Tower landing zone customization to automatically deploy the Quick Start every time you enroll a new account.</p>
+<p>When using AWS Control Tower, provides the option to add the template to your Control Tower landing zone customization to automatically deploy the Quick Start every time you enroll a new account.</p>
 </li>
 <li>
 <p>Supports EC2 instances running in AWS Outposts.</p>
@@ -898,17 +894,41 @@ report bugs, or submit feature ideas for this Quick Start.
 </ul>
 </div>
 <div class="paragraph">
-<p>For more information, see the following resources:
- * <a href="https://aws.amazon.com/ec2" target="_blank" rel="noopener">Amazon EC2</a>
- * <a href="https://newrelic.com/integrations/aws-ec2-integration" target="_blank" rel="noopener">Amazon EC2 monitoring integration</a>
- * <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/LaunchingAndUsingInstances.html" target="_blank" rel="noopener">Launch your EC2 instance</a>
- * <a href="https://aws.amazon.com/console/" target="_blank" rel="noopener">AWS Management Console</a>
- * <a href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/what-is-image-builder.html" target="_blank" rel="noopener">What is EC2 Image Builder?</a>
- * <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html" target="_blank" rel="noopener">Working with AWS CloudFormation StackSets</a>
- * <a href="https://aws.amazon.com/controltower/" target="_blank" rel="noopener">AWS Control Tower</a>
- * <a href="https://docs.aws.amazon.com/controltower/latest/userguide/customize-landing-zone.html" target="_blank" rel="noopener">Walkthrough: Customize Your AWS Control Tower Landing Zone</a>
- * <a href="https://aws.amazon.com/outposts/" target="_blank" rel="noopener">AWS Outposts</a>
- * <a href="https://www.terraform.io/" target="_blank" rel="noopener">Terraform</a></p>
+<p>For more information, see the following resources:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://aws.amazon.com/ec2" target="_blank" rel="noopener">Amazon EC2</a></p>
+</li>
+<li>
+<p><a href="https://newrelic.com/integrations/aws-ec2-integration" target="_blank" rel="noopener">Amazon EC2 monitoring integration</a></p>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/LaunchingAndUsingInstances.html" target="_blank" rel="noopener">Launch your EC2 instance</a></p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/console/" target="_blank" rel="noopener">AWS Management Console</a></p>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/what-is-image-builder.html" target="_blank" rel="noopener">What is EC2 Image Builder?</a></p>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html" target="_blank" rel="noopener">Working with AWS CloudFormation StackSets</a></p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/controltower/" target="_blank" rel="noopener">AWS Control Tower</a></p>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/controltower/latest/userguide/customize-landing-zone.html" target="_blank" rel="noopener">Walkthrough: Customize Your AWS Control Tower Landing Zone</a></p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/outposts/" target="_blank" rel="noopener">AWS Outposts</a></p>
+</li>
+<li>
+<p><a href="https://www.terraform.io/" target="_blank" rel="noopener">Terraform</a></p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -925,20 +945,14 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 </div>
 </div>
 <div class="sect1">
-<h2 id="_new_relics_ec2_infrastructure_integration_on_aws">New Relic&#8217;s EC2 Infrastructure integration on AWS</h2>
+<h2 id="_new_relics_ec2_infrastructure_on_aws">New Relic&#8217;s EC2 Infrastructure on AWS</h2>
 <div class="sectionbody">
-
-</div>
-</div>
-<h1 id="_aws_quickstart_for_new_relics_ec2_infrastructure_integration" class="sect0">AWS QuickStart for New Relic&#8217;s EC2 Infrastructure integration</h1>
-<div class="openblock partintro">
-<div class="content">
 <div class="paragraph">
-<p>New Relic&#8217;s EC2 Infrastructure integration is used for reporting your EC2 metadata to New Relic products.
+<p>New Relic&#8217;s EC2 Infrastructure is used for reporting your EC2 metadata to New Relic products.
 After you install the New Relic infrastructure agent on each EC2 host, you can view metrics from that host and get a comprehensive, real-time view of the performance and status of your EC2 instances.</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start relies on AWS Systems Manager Automation for managing deployment tasks and requires installation of the AWS Systems Manager Agent (SSM Agent) on all EC2 instances.</p>
+<p>This Quick Start relies on AWS Systems Manager Automation for managing deployment tasks. AWS Systems Manager Agent (SSM Agent) must be installed on all EC2 instances.</p>
 </div>
 <div class="paragraph">
 <p>See the following resources for more information:</p>
@@ -1012,21 +1026,27 @@ AWS Cloud.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Amazon Elastic Compute Cloud (Amazon EC2) instance profile and a linked IAM role if you choose to create a new instance profile when launching the template.</p>
+<p>(Optional) An Amazon Elastic Compute Cloud (Amazon EC2) instance profile with a linked AWS Identity and Access Management (IAM) role used for granting access to Systems Manager service functionality within the EC2 instance. You can attach this instance profile to existing EC2 instances and install the New Relic infrastructure agent.*</p>
 </li>
 <li>
-<p>SSM Automation execution IAM role.</p>
+<p>AWS Secrets Manager for storing the New Relic license key.</p>
 </li>
 <li>
-<p>EventBridge rule.</p>
+<p>An EventBridge rule to trigger installation of the New Relic infrastructure agent when the associated tag is used on the EC2 instance.</p>
 </li>
 <li>
-<p>SSM Automation document.</p>
+<p>A Systems Manager Automation execution IAM role to allow the EC2 instances to run the Systems Manager Automation runbook.</p>
+</li>
+<li>
+<p>Systems Manager Automation runbook for installing the New Relic infrastructure agent.</p>
+</li>
+<li>
+<p>Systems Manager Command document to run the installation commands for the automation runbook. The Command document is public (not deployed) and can be shared with customers.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><span class="small">*The template skips the components marked by asterisks and prompts you for your New Relic License key and whether or not you want to create a new SSM instance profile for your EC2 instances.</span></p>
+<p><span class="small">*The template prompts you for your New Relic license key and asks whether you want to create a new Systems Manager instance profile for your EC2 instances.</span></p>
 </div>
 </div>
 </div>
@@ -1210,6 +1230,9 @@ Certain Regions are available on an opt-in basis. For more information, see <a h
 </div>
 <div class="sect3">
 <h4 id="_prepare_your_aws_account">Prepare your AWS account</h4>
+<div class="paragraph">
+<p>To prepare your AWS account, do the following:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -1238,7 +1261,7 @@ Certain Regions are available on an opt-in basis. For more information, see <a h
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Deploy New Relic as CloudFormation StackSet</strong>. This recommended option is useful when your environment includes EC2 instances that span across multiple Regions and accounts.</p>
+<p><strong>Deploy New Relic using CloudFormation StackSets</strong>. This recommended option is useful when your environment includes EC2 instances that span across multiple Regions and accounts.</p>
 </li>
 <li>
 <p><strong>Deploy New Relic as CloudFormation stack</strong>. This option is useful for testing or troubleshooting, for example when you want to quickly deploy the stack in a given Region, and then test the automation to confirm that it works as expected.</p>
@@ -1246,7 +1269,7 @@ Certain Regions are available on an opt-in basis. For more information, see <a h
 </ul>
 </div>
 <div class="paragraph">
-<p>The Quick Start provides a single template for both options. Use either the CloudFormation StackSet or Stack to launch the Quick Start.</p>
+<p>The Quick Start provides a single template for both options. If using a stack set, you can also launch the Quick Start using the command line.</p>
 </div>
 </div>
 </div>
@@ -1311,12 +1334,12 @@ You are responsible for the cost of the AWS services used while running this Qui
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy New Relic into a single AWS Account</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_template_permalink" target="_blank" rel="noopener">View template</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://fwd.aws/qvQnn" target="_blank" rel="noopener">Deploy New Relic into a single AWS Account</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://fwd.aws/Wjr9N" target="_blank" rel="noopener">View template</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="#Deploy_using_Stack_Sets">Deploy using Stack Sets</a></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacksets/create" target="_blank" rel="noopener">Deploy New Relic into a stack set</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://aws-quickstart.s3.amazonaws.com/quickstart-new-relic-tdp/templates/NR-EC2InfraAgentSSMAutomation.template.yaml" target="_blank" rel="noopener">View template</a></p></td>
 </tr>
 </tbody>
 </table>
@@ -1334,62 +1357,6 @@ You are responsible for the cost of the AWS services used while running this Qui
 </li>
 <li>
 <p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template. Provide values for the parameters that require input. For all other parameters, review the default settings and customize them as necessary. For details on each parameter, see the <a href="#_parameter_reference">Parameter reference</a> section of this guide. When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
-</li>
-</ol>
-</div>
-<div class="sect3">
-<h4 id="Deploy_using_Stack_Sets">Deploy using Stack Sets</h4>
-<div class="paragraph">
-<p>This solution requires that you deploy the StackSet instances in your AWS accounts across all regions where you plan to have the New Relic Infrastructure agent installed on your EC2 instances.
-Each deployment takes about 5 minutes to complete.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Create a StackSet named <code>NR-EC2InfraSSMAutomation</code> in your AWS account. It is recommended that you create it in your StackSet administration account or your Control Tower management account, but you can use any other account, if necessary. Use your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html">AWS account ID</a> in place of <code>AWS_ACCOUNT_ID</code> placeholder. The template accepts your <a href="https://docs.newrelic.com/docs/accounts/accounts-billing/account-setup/new-relic-license-key">New Relic license key</a> as a parameter. Use it in place of <code>NEW_RELIC_LICENSE_KEY</code> placeholder. Use the actual IAM Role names for your StackSet administration and execution roles, for the placeholders; <code>STACK_SET_ADMINISTRATION_ROLE_NAME</code> and <code>STACK_SET_EXECUTION_ROLE_NAME</code>, respectively.</p>
-<div class="listingblock">
-<div class="content">
-<pre>aws cloudformation create-stack-set \
-    --stack-set-name NR-EC2InfraSSMAutomation \
-    --template-body file:./templates/NR-EC2InfraAgentSSMAutomation.yml \
-    --description "SSM Automation workflow for installing New Relic Infrastructure Agent on EC2 instances" \
-    --parameters ParameterKey=NewRelicLicenseKey,ParameterValue=&lt;NEW_RELIC_LICENSE_KEY&gt; \
-    --capabilities CAPABILITY_NAMED_IAM \
-    --administration-role-arn arn:aws:iam::&lt;AWS_ACCOUNT_ID&gt;:role/&lt;STACK_SET_ADMINISTRATION_ROLE_NAME&gt; \
-    --execution-role-name &lt;STACK_SET_EXECUTION_ROLE_NAME&gt; \
-    --permission-model SELF_MANAGED</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>After the command returns successfully, the StackSet creation starts. You can check the status of the StackSet creation after a few seconds. To verify the StackSet was successfully created, run the below command, and make sure the StackSet name, viz. <code>NR-EC2InfraSSMAutomation</code> is returned.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>aws cloudformation describe-stack-set --stack-set-name NR-EC2InfraSSMAutomation --query "StackSet.StackSetName"</pre>
-</div>
-</div>
-</li>
-<li>
-<p>Next, create instances of the <code>NR-EC2InfraSSMAutomation</code> StackSet across various AWS accounts and regions where you plan to launch EC2 instances. The following <code>create-stack-instances</code> example creates instances in two accounts and in four US regions.</p>
-<div class="listingblock">
-<div class="content">
-<pre>aws cloudformation create-stack-instances \
-    --stack-set-name NR-EC2InfraSSMAutomation \
-    --accounts 123456789012 223456789012 \
-    --regions us-east-1 us-east-2 us-west-1 us-west-2</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>After the command returns successfully, the Stack instances creation operation starts and an <code>OperationId</code> is returned. You can check the status of the operation after a few seconds. To verify the operation was successfully completed, run the below command, and make sure the status, viz. <code>SUCCEEDED</code> is returned. Use the returned <code>OperationId</code> value in place of <code>OPERATION_ID</code> placeholder.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>aws cloudformation describe-stack-set-operation \
-    --stack-set-name NR-EC2InfraSSMAutomation \
-    --operation-id &lt;OPERATION_ID&gt; \
-    --query "StackSetOperation.Status"</pre>
-</div>
-</div>
 </li>
 </ol>
 </div>
@@ -1417,6 +1384,84 @@ Each deployment takes about 5 minutes to complete.</p>
 <a class="image" href="images/cfn_outputs.png"><img src="images/cfn_outputs.png" alt="cfn_outputs" width="100%" height="100%"></a>
 </div>
 <div class="title">Figure 2. New Relic outputs after successful deployment</div>
+</div>
+<div class="sect3">
+<h4 id="Deploy_using_Stack_Sets">Deploy using CloudFormation StackSets</h4>
+<div class="paragraph">
+<p>Deploy the stack set instances in your AWS accounts across all Regions where you plan to install the New Relic infrastructure agent on your EC2 instances. Each deployment takes about 5 minutes to complete.</p>
+</div>
+<div class="paragraph">
+<p>The following instructions provide steps for deploying New Relic using the command line. However, you can also deploy the stack set directly from the AWS Console by&#8230;&#8203;</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a stack set named <code>NR-EC2InfraSSMAutomation</code> in your AWS account in your StackSets administration account or your Control Tower management account. You can create the stack in another account, if necessary. Replace the following placeholders with your own values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AWS_ACCOUNT_ID</code>: Your <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html">AWS account ID</a></p>
+</li>
+<li>
+<p><code>NEW_RELIC_LICENSE_KEY</code>: Your <a href="https://docs.newrelic.com/docs/accounts/accounts-billing/account-setup/new-relic-license-key">New Relic license key</a></p>
+</li>
+<li>
+<p><code>STACK_SET_ADMINISTRATION_ROLE_NAME</code>: Your IAM role name for the StackSets administration role</p>
+</li>
+<li>
+<p><code>STACK_SET_EXECUTION_ROLE_NAME</code>: Your IAM role names for the StackSets execution role</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>aws cloudformation create-stack-set \
+    --stack-set-name NR-EC2InfraSSMAutomation \
+    --template-body file:./templates/NR-EC2InfraAgentSSMAutomation.yml \
+    --description "SSM Automation workflow for installing New Relic Infrastructure Agent on EC2 instances" \
+    --parameters ParameterKey=NewRelicLicenseKey,ParameterValue=&lt;NEW_RELIC_LICENSE_KEY&gt; \
+    --capabilities CAPABILITY_NAMED_IAM \
+    --administration-role-arn arn:aws:iam::&lt;AWS_ACCOUNT_ID&gt;:role/&lt;STACK_SET_ADMINISTRATION_ROLE_NAME&gt; \
+    --execution-role-name &lt;STACK_SET_EXECUTION_ROLE_NAME&gt; \
+    --permission-model SELF_MANAGED</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+
+After a few minutes, verify that the stack was created by running the following command. Make sure the stack name <code>NR-EC2InfraSSMAutomation</code> is returned.</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>aws cloudformation describe-stack-set --stack-set-name NR-EC2InfraSSMAutomation --query "StackSet.StackSetName"</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Next, create instances of the <code>NR-EC2InfraSSMAutomation</code> StackSet across various AWS accounts and Regions where you plan to launch EC2 instances. The following example creates instances in two accounts and in four Regions in the United States.</p>
+<div class="listingblock">
+<div class="content">
+<pre>aws cloudformation create-stack-instances \
+    --stack-set-name NR-EC2InfraSSMAutomation \
+    --accounts 123456789012 223456789012 \
+    --regions us-east-1 us-east-2 us-west-1 us-west-2</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After the command returns successfully, the Stack instances creation operation starts and an <code>OperationId</code> is returned. You can check the status of the operation after a few seconds. To verify the operation was successfully completed, run the below command, and make sure the status, viz. <code>SUCCEEDED</code> is returned. Use the returned <code>OperationId</code> value in place of <code>OPERATION_ID</code> placeholder.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>aws cloudformation describe-stack-set-operation \
+    --stack-set-name NR-EC2InfraSSMAutomation \
+    --operation-id &lt;OPERATION_ID&gt; \
+    --query "StackSetOperation.Status"</pre>
+</div>
+</div>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -1713,7 +1758,7 @@ and to share your customizations with others.</p>
 </html>
 <!--
 repo commit:
-fdbb3e31a302888e69866d59b8d61c6352790c54
+e5db2133579e8fd72fef271cb9587213f287ee59
 
 submodule config:
 +18d2093a989c1f974a5d1ba0dc3be0f08d4735de docs/boilerplate (heads/main)
