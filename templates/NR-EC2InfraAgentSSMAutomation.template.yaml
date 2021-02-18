@@ -1,12 +1,12 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Configures the SSM and Event Bridge infrastructure required to deploy the New Relic agent for EC2 instances. (qs-1rdf7jmtg)
+Description: Configures the AWS Systems Manager and Amazon EventBridge infrastructure required to deploy the New Relic infrastructure agent for EC2 instances. (qs-1rdf7jmtg)
 Metadata: 
   QuickStartDocumentation:
-    EntrypointName: "Deploy New Relic agent for EC2 instances"
+    EntrypointName: "Deploy New Relic infrastructure agent for EC2 instances"
   AWS::CloudFormation::Interface: 
     ParameterGroups: 
       - Label: 
-          default: "New Relic account info"
+          default: "New Relic account information"
         Parameters: 
           - NewRelicLicenseKey
       - Label: 
@@ -15,9 +15,9 @@ Metadata:
           - CreateEC2InstanceProfile
     ParameterLabels: 
       NewRelicLicenseKey: 
-        default: "Enter your New Relic license key."
+        default: "New Relic license key"
       CreateEC2InstanceProfile:
-        default: "Do you want to create an EC2 instance profile that allows Systems Manager core service functionality?"
+        default: "Do you want to create an EC2 instance profile that enables Systems Manager core service functionality?"
 Parameters:
   CreateEC2InstanceProfile:
     Type: String
@@ -25,12 +25,12 @@ Parameters:
       - 'Yes'
       - 'No'
     Default: 'No'
-    Description: Create an EC2 instance profile that allows Systems Manager core service functionality
+    Description: Create an EC2 instance profile that enables Systems Manager core service functionality.
   NewRelicLicenseKey:
     Type: String
     NoEcho: true
     AllowedPattern: '[A-Za-z0-9]+'
-    ConstraintDescription: License key must match the pattern [A-Za-z0-9]+
+    ConstraintDescription: License key must match the pattern [A-Za-z0-9]+.
     Description: (Required) Enter your New Relic license key.
 Conditions:
   CreateEC2InstanceProfile:
@@ -49,7 +49,7 @@ Resources:
           Principal:
             Service: ec2.amazonaws.com
           Action: sts:AssumeRole
-      Description: New Relic provided EC2 role that enables instances to use Systems Manager core service functionality
+      Description: New Relic-provided EC2 role that enables instances to use Systems Manager core service functionality.
       ManagedPolicyArns: 
         - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore
         - !Sub arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy
@@ -65,16 +65,16 @@ Resources:
       cfn_nag:
         rules_to_suppress:
           - id: W77
-            reason: The License key should not be shared cross account, and KmsKeyId defaults to the AWS managed CMK for Secrets Manager.
+            reason: The License key should not be shared across accounts. The KmsKeyId defaults to the AWS-managed CMK for Secrets Manager.
     Type: AWS::SecretsManager::Secret
     Properties:
-      Description: Your New Relic License Key.
+      Description: Your New Relic license key.
       Name: !Sub /${AWS::StackName}/NRLicenseKey
       SecretString: !Ref NewRelicLicenseKey
   NREC2InfraAgentRule:
     Type: AWS::Events::Rule
     Properties:
-      Description: Install NR Infra agent on EC2 instances
+      Description: Install the New Relic infrastructure agent on EC2 instances.
       EventPattern:
         source:
           - aws.ec2
@@ -100,7 +100,7 @@ Resources:
       cfn_nag:
         rules_to_suppress:
           - id: W11
-            reason: SSM Automation execution role needs restricted access to all EC2 instances to run the automation.
+            reason: Systems Manager Automation execution role needs restricted access to all EC2 instances to run the automation.
     Properties:
       Path: /service-role/
       AssumeRolePolicyDocument:
@@ -157,15 +157,15 @@ Resources:
       DocumentType: Automation
       # Name: NR-EC2InfraAgentSSMAutomationDoc
       Content:
-        description: Automate NR Infra EC2 agent installation
+        description: Automate the New Relic infrastructure agent EC2 agent installation.
         schemaVersion: '0.3'
         parameters:
           InstanceId:
             type: String
-            description: (Required) The ID of the EC2 instance to install NR Infra
+            description: (Required) The ID of the EC2 instance to install the New Relic infrastructure agent. 
               agent on
           FilterByTag:
-            description: Filter by EC2 instance tag, with "NR-Infrastructure" tag name set to "Install"?
+            description: Filter by the EC2 instance tag, with the "NR-Infrastructure" tag name set to "Install"?
             type: String
             default: 'Yes'
             allowedValues:
@@ -247,8 +247,11 @@ Resources:
               Duration: PT1S
 Outputs:
   NRSSMAutomationDoc:
-    Description: Name of the SSM Automatiomn document
+    Description: Name of the Systems Manager Automation document.
     Value: !Ref NREC2InfraAgentSSMAutomationDoc
   EventRule:
-    Description: Name of the Event Bridge rule
+    Description: Name of the EventBridge rule.
     Value: !Ref NREC2InfraAgentRule
+  Postdeployment:
+    Description: See the deployment guide for post-deployment information. 
+    Value: https://fwd.aws/xj578

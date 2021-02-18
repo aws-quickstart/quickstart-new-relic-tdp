@@ -813,7 +813,7 @@ p.footer-text a{color:#d7d8d8}
 <li><a href="#_troubleshooting">Troubleshooting</a></li>
 <li><a href="#_parameter_reference">Parameter reference</a>
 <ul class="sectlevel2">
-<li><a href="#_deploy_new_relic_agent_for_ec2_instances">Deploy New Relic agent for EC2 instances</a></li>
+<li><a href="#_deploy_new_relic_infrastructure_agent_for_ec2_instances">Deploy New Relic infrastructure agent for EC2 instances</a></li>
 </ul>
 </li>
 <li><a href="#_send_us_feedback">Send us feedback</a></li>
@@ -871,19 +871,19 @@ report bugs, or submit feature ideas for this Quick Start.
 <div class="ulist">
 <ul>
 <li>
-<p>Automates the process of deploying and managing the infrastructure agent on EC2 instances across various operating systems and architectures.</p>
+<p>Automates the process of deploying and managing the New Relic infrastructure agent on EC2 instances across various operating systems and architectures.</p>
 </li>
 <li>
-<p>Controls which EC2 instances to include when installing the infrastructure agent by using a tag on the instance. The tag used to deploy the agent on the EC2 instances is named <em>+NR-Infrastructure+</em> with a value of <em>+Install+</em>.</p>
+<p>Controls which EC2 instances to include when installing the New Relic infrastructure agent by using a tag on the instance. The tag used to deploy the agent on the EC2 instances is named <em>+NR-Infrastructure+</em> with a value of <em>+Install+</em>.</p>
 </li>
 <li>
 <p>Launches EC2 instances using a variety of methods, including the launch instance wizard in the AWS Management Console, an EC2 Auto Scaling group, AWS CloudFormation templates, AWS Cloud Development Kit (AWS CDK), AWS Command Line Interface (AWS CLI), and AWS Software Development Kit (AWS SDK). You can use these methods to launch the instance either using a standard or golden Amazon Machine Image (AMI) or third-party tools such as Terraform.</p>
 </li>
 <li>
-<p>Launches an AWS CloudFormation StackSet for installing the infrastructure agent across multiple Regions and accounts.</p>
+<p>Launches an AWS CloudFormation StackSet for installing the New Relic infrastructure agent across multiple Regions and accounts.</p>
 </li>
 <li>
-<p>Provides the option to run the AWS Systems Manager Agent (SSM Agent) on demand, allowing you to automate the installation of the infrastructure agent on all EC2 instances. This option is especially useful when you want to monitor a large number of EC2 instances in your AWS accounts.</p>
+<p>Provides the option to run the AWS Systems Manager Agent (SSM Agent) on demand, allowing you to automate the installation of the New Relic infrastructure agent on all EC2 instances. This option is especially useful when you want to monitor a large number of EC2 instances in your AWS accounts.</p>
 </li>
 <li>
 <p>When using AWS Control Tower, provides the option to add the template to your Control Tower landing zone customization to automatically deploy the Quick Start every time you enroll a new account.</p>
@@ -949,10 +949,10 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 <div class="sectionbody">
 <div class="paragraph">
 <p>New Relic&#8217;s EC2 Infrastructure is used for reporting your EC2 metadata to New Relic products.
-After you install the New Relic infrastructure agent on each EC2 host, you can view metrics from that host and get a comprehensive, real-time view of the performance and status of your EC2 instances.</p>
+After you install the New Relic infrastructure agent on each EC2 instance, you can view metrics from that instance and get a comprehensive, real-time view of the performance and status of your EC2 instances.</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start relies on AWS Systems Manager Automation for managing deployment tasks. AWS Systems Manager Agent (SSM Agent) must be installed on all EC2 instances.</p>
+<p>This Quick Start relies on AWS Systems Manager Automation for managing deployment tasks. SSM Agent must be installed on all EC2 instances.</p>
 </div>
 <div class="paragraph">
 <p>See the following resources for more information:</p>
@@ -1029,19 +1029,19 @@ AWS Cloud.</p>
 <p>(Optional) An Amazon Elastic Compute Cloud (Amazon EC2) instance profile with a linked AWS Identity and Access Management (IAM) role used for granting access to Systems Manager service functionality within the EC2 instance. You can attach this instance profile to existing EC2 instances and install the New Relic infrastructure agent.*</p>
 </li>
 <li>
-<p>AWS Secrets Manager for storing the New Relic license key.</p>
-</li>
-<li>
-<p>An EventBridge rule to trigger installation of the New Relic infrastructure agent when the associated tag is used on the EC2 instance.</p>
+<p>An EventBridge rule to filter the EC2 instances that have the <code>NR-Infrastructure</code> tag set to <code>Install</code> and then trigger the installation of the New Relic infrastructure agent on those instances.</p>
 </li>
 <li>
 <p>A Systems Manager Automation execution IAM role to allow the EC2 instances to run the Systems Manager Automation runbook.</p>
 </li>
 <li>
-<p>Systems Manager Automation runbook for installing the New Relic infrastructure agent.</p>
+<p>Systems Manager Automation runbook with instructions for installing the New Relic infrastructure agent on EC2 instances with matching tags.</p>
 </li>
 <li>
-<p>Systems Manager Command document to run the installation commands for the automation runbook. The Command document is public (not deployed) and can be shared with customers.</p>
+<p>Systems Manager Command document to run the installation commands listed in the Automation runbook. The Command document is public (not deployed) and can be shared with customers.</p>
+</li>
+<li>
+<p>AWS Secrets Manager for storing the New Relic license key.</p>
 </li>
 </ul>
 </div>
@@ -1390,8 +1390,17 @@ You are responsible for the cost of the AWS services used while running this Qui
 <div class="paragraph">
 <p>Deploy the stack set instances in your AWS accounts across all Regions where you plan to install the New Relic infrastructure agent on your EC2 instances. Each deployment takes about 5 minutes to complete.</p>
 </div>
-<div class="paragraph">
-<p>The following instructions provide steps for deploying New Relic using the command line. However, you can also deploy the stack set directly from the AWS Console by&#8230;&#8203;</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The following instructions provide steps for deploying New Relic using the command line. However, you can also deploy the stack set directly from the AWS Console by creating a StackSet, uploading the <a href="https://fwd.aws/Wjr9N" target="_blank" rel="noopener">template file</a>, and providing parameter field values (including your AWS accounts and Regions).
+</td>
+</tr>
+</table>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1660,9 +1669,9 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </table>
 </div>
 <div class="sect2">
-<h3 id="_deploy_new_relic_agent_for_ec2_instances">Deploy New Relic agent for EC2 instances</h3>
+<h3 id="_deploy_new_relic_infrastructure_agent_for_ec2_instances">Deploy New Relic infrastructure agent for EC2 instances</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. New Relic account info</caption>
+<caption class="title">Table 1. New Relic account information</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1677,7 +1686,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enter your New Relic license key.
+<td class="tableblock halign-left valign-top"><p class="tableblock">New Relic license key
 (<code>NewRelicLicenseKey</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">(Required) Enter your New Relic license key.</p></td>
@@ -1700,10 +1709,10 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Do you want to create an EC2 instance profile that allows Systems Manager core service functionality?
+<td class="tableblock halign-left valign-top"><p class="tableblock">Do you want to create an EC2 instance profile that enables Systems Manager core service functionality?
 (<code>CreateEC2InstanceProfile</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>No</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Create an EC2 instance profile that allows Systems Manager core service functionality</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create an EC2 instance profile that enables Systems Manager core service functionality.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1758,7 +1767,7 @@ and to share your customizations with others.</p>
 </html>
 <!--
 repo commit:
-e5db2133579e8fd72fef271cb9587213f287ee59
+0d05edb80808790277a289592d73ffe7893dcd7d
 
 submodule config:
 +18d2093a989c1f974a5d1ba0dc3be0f08d4735de docs/boilerplate (heads/main)
