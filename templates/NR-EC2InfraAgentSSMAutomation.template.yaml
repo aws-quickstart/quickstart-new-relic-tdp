@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Configures the AWS Systems Manager and Amazon EventBridge infrastructure required to deploy the New Relic infrastructure agent for EC2 instances. (qs-1rdf7jmtg)
 Metadata: 
   QuickStartDocumentation:
-    EntrypointName: "Deploy New Relic infrastructure agent for EC2 instances"
+    EntrypointName: "Parameters for deploy New Relic infrastructure agent for EC2 instances"
   AWS::CloudFormation::Interface: 
     ParameterGroups: 
       - Label: 
