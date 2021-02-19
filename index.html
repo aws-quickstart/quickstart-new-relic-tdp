@@ -1035,10 +1035,10 @@ AWS Cloud.</p>
 <p>A Systems Manager Automation execution IAM role to allow the EC2 instances to run the Systems Manager Automation runbook.</p>
 </li>
 <li>
-<p>Systems Manager Automation runbook with instructions for installing the New Relic infrastructure agent on EC2 instances with matching tags.</p>
+<p>A Systems Manager Automation runbook with instructions for installing the New Relic infrastructure agent on EC2 instances with matching tags.</p>
 </li>
 <li>
-<p>Systems Manager Command document to run the installation commands listed in the Automation runbook. The Command document is public (not deployed) and can be shared with customers.</p>
+<p>A Systems Manager Command document to run the installation commands listed in the Automation runbook. The Command document is public (not deployed) and can be shared with customers.</p>
 </li>
 <li>
 <p>AWS Secrets Manager for storing the New Relic license key.</p>
@@ -1397,7 +1397,7 @@ You are responsible for the cost of the AWS services used while running this Qui
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The following instructions provide steps for deploying New Relic using the command line. However, you can also deploy the stack set directly from the AWS Console by creating a StackSet, uploading the <a href="https://fwd.aws/Wjr9N" target="_blank" rel="noopener">template file</a>, and providing parameter field values (including your AWS accounts and Regions).
+The following instructions provide steps for deploying New Relic using the command line. However, you can also deploy the stack set directly from the AWS Console by creating a stack set, uploading the <a href="https://fwd.aws/Wjr9N" target="_blank" rel="noopener">template file</a>, and providing parameter field values (including your AWS accounts and Regions).
 </td>
 </tr>
 </table>
@@ -1767,7 +1767,7 @@ and to share your customizations with others.</p>
 </html>
 <!--
 repo commit:
-6684c5c4b589c670adddd0f0365174fdf956989c
+79f72c7352ca3cca68055514ede1a929484ebf7f
 
 submodule config:
 +6e66ba34be2b5984ca7a997018fcb83ede67e6ef docs/boilerplate (heads/main)
