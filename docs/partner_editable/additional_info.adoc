@@ -4,7 +4,7 @@
 ==== Deploy using CloudFormation StackSets ====
 Deploy the stack set instances in your AWS accounts across all Regions where you plan to install the {partner-product-short-name} infrastructure agent on your EC2 instances. Each deployment takes about {deployment_time} to complete.
 
-NOTE: The following instructions provide steps for deploying {partner-product-short-name} using the command line. However, you can also deploy the stack set directly from the AWS Console by creating a StackSet, uploading the https://fwd.aws/Wjr9N[template file^], and providing parameter field values (including your AWS accounts and Regions).
+NOTE: The following instructions provide steps for deploying {partner-product-short-name} using the command line. However, you can also deploy the stack set directly from the AWS Console by creating a stack set, uploading the https://fwd.aws/Wjr9N[template file^], and providing parameter field values (including your AWS accounts and Regions).
 
 . Create a stack set named `NR-EC2InfraSSMAutomation` in your AWS account in your StackSets administration account or your Control Tower management account. You can create the stack in another account, if necessary. Replace the following placeholders with your own values:
 
