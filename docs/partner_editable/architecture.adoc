@@ -9,11 +9,17 @@ image::../images/new-relic-architecture-diagram.png[Architecture,width=100%,heig
 
 As shown in <<architecture1>>, the Quick Start sets up the following:
 
-* (Optional) An Amazon Elastic Compute Cloud (Amazon EC2) instance profile with a linked AWS Identity and Access Management (IAM) role used for granting access to Systems Manager service functionality within the EC2 instance. You can attach this instance profile to existing EC2 instances and install the {partner-product-short-name} infrastructure agent.*  
-* An EventBridge rule to filter the EC2 instances that have the `NR-Infrastructure` tag set to `Install` and then trigger the installation of the {partner-product-short-name} infrastructure agent on those instances.  
-* A Systems Manager Automation execution IAM role to allow the EC2 instances to run the Systems Manager Automation runbook.
-* A Systems Manager Automation runbook with instructions for installing the {partner-product-short-name} infrastructure agent on EC2 instances with matching tags. 
-* A Systems Manager Command document to run the installation commands listed in the Automation runbook. The Command document is public (not deployed) and can be shared with customers. 
-* AWS Secrets Manager for storing the {partner-product-short-name} license key. 
+* (Optional) Amazon EC2 instance profile with a linked AWS Identity and Access Management (IAM) role used for granting access to AWS Systems Manager service functionality within the Amazon EC2 instance.*  
+* An AWS Systems Manager Automation execution IAM role to allow the Amazon EC2 instances to run the AWS Systems Manager Automation runbook.
+* In the Region:
+
+** An Amazon EventBridge rule to filter the Amazon EC2 instances that have a designated tag to trigger the installation of the {partner-product-short-name} infrastructure agent on those instances. 
+** An AWS Systems Manager Automation runbook with instructions for retrieving the {partner-product-short-name} license key and installing the {partner-product-short-name} infrastructure agent on Amazon EC2 instances with matching tags.  
+** An AWS Systems Manager Command document to run the installation commands listed in the Automation runbook. 
+
+* IAM configurations that include groups, roles, and instance profiles as well as customizable IAM policies.
+* Amazon Eventbridge for providing the filtering rule.
+* AWS Systems Manager for providing the Automation runbook and Command document.
+* AWS Secrets Manager for storing the New Relic license key. 
 
 [.small]#*The template prompts you for your {partner-product-short-name} license key and asks whether you want to create a new Systems Manager instance profile for your EC2 instances.#
