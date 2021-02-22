@@ -21,7 +21,7 @@ endif::marketplace_subscription[]
 
 === Launch the Quick Start
 // Adapt the following warning to your Quick Start.
-WARNING: If you’re deploying {partner-product-short-name} to monitor EC2 instances in private subnet without Internet access, you need to https://aws.amazon.com/premiumsupport/knowledge-center/ec2-systems-manager-vpc-endpoints/[enable Systems Manager access for private instances].
+WARNING: If you’re deploying {partner-product-short-name} to monitor EC2 instances in private subnet without Internet access, you must https://aws.amazon.com/premiumsupport/knowledge-center/ec2-systems-manager-vpc-endpoints/[enable Systems Manager access for private instances].
 
 NOTE: You are responsible for the cost of the AWS services used while running this Quick Start reference deployment. There is no additional cost for using this Quick Start. For full details, see the pricing pages for each AWS service used by this Quick Start. Prices are subject to change.
 
