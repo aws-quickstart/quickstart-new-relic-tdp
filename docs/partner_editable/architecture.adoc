@@ -13,7 +13,7 @@ As shown in <<architecture1>>, the Quick Start sets up the following:
 * An AWS Systems Manager Automation execution IAM role to allow the Amazon EC2 instances to run the AWS Systems Manager Automation runbook.
 * In the Region:
 
-** An Amazon EventBridge rule to filter the Amazon EC2 instances that have a designated tag to trigger the installation of the {partner-product-short-name} infrastructure agent on those instances. 
+** An Amazon EventBridge rule to filter the Amazon EC2 instances for the matching instance ID and then pass the ID to AWS Systems Manager.  
 ** An AWS Systems Manager Automation runbook with instructions for retrieving the {partner-product-short-name} license key and installing the {partner-product-short-name} infrastructure agent on Amazon EC2 instances with matching tags.  
 ** An AWS Systems Manager Command document to run the installation commands listed in the Automation runbook. 
 
