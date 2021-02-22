@@ -1,5 +1,5 @@
 :quickstart-project-name: quickstart-new-relic-tdp
-:partner-product-name: New Relic EC2 Infrastructure 
+:partner-product-name: New Relic Infrastructure Amazon EC2 integration 
 // For the following attribute, if you have no short name, enter the same name as partner-product-name.
 :partner-product-short-name: New Relic
 // If there's no partner, comment partner-company-name and partner-contributors.

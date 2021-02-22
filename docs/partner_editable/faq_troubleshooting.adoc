@@ -23,7 +23,7 @@ Also be sure that the security group associated with your instance allows incomi
 
 NOTE: After you launch an instance, sometimes it takes a few minutes before you can connect to it. Check that your instance has passed the status checks. You can view this information in the *Status check* column on the *Instances* page.
 
-If you have tried these steps and the the issue is still not resolved, see https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-troubleshooting.html[Troubleshooting Session Manager^]. For general connection issues, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html[Troubleshooting connecting to your instance^].
+If you have tried these steps and the issue is still not resolved, see https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-troubleshooting.html[Troubleshooting Session Manager^]. For general connection issues, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html[Troubleshooting connecting to your instance^].
 
 *Q.* The {partner-product-short-name} infrastructure agent is installed, but no data shows up in {partner-product-short-name}.
 
@@ -44,7 +44,7 @@ For more information, see the following resources:
 SSM Automation reports provide information about various statuses that an automation action or step goes through when you run an automation, and for the overall automation. To check status, do these steps:
 
 . Navigate to the Systems Manager console. 
-. Select the same Region where you launched your instance. 
+. Choose the same Region where you launched your instance. 
 . In the navigation pane, choose *Automation*. 
 . In the *Executions* tab, locate the status message beside the document named *NR-EC2InfraAgentSSMAutomationDoc*. If an error has occurred, check the message for the possible root cause and address or report the error. If no error has occurred, try running the automation manually. For more information, see https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-working-executing-manually.html[Running an automation manually^].
 
