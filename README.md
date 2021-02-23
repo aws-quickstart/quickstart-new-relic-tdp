@@ -1,4 +1,4 @@
-## New Relic EC2 Infrastructure on the AWS Cloud—Quick Start
+## New Relic Amazon EC2 Infrastructure Integration on the AWS Cloud—Quick Start
 
 For architectural details, step-by-step instructions, and customization options, see the [deployment guide](https://aws-quickstart.github.io/quickstart-new-relic-tdp/).
 
