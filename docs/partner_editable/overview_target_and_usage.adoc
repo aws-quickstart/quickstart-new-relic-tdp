@@ -20,6 +20,7 @@ The Quick Start does the following:
 ** AWS Software Development Kit (AWS SDK)
 
 You can use these methods to launch the instance either using a standard or golden Amazon Machine Image (AMI) or third-party tools such as Terraform.
+
 * Launches an AWS CloudFormation StackSet for installing the {partner-product-short-name} infrastructure agent across multiple Regions and accounts. 
 * Provides the option to run the AWS Systems Manager Agent (SSM Agent) on demand, allowing you to automate the installation of the {partner-product-short-name} infrastructure agent on all EC2 instances. This option is especially useful when you want to monitor a large number of EC2 instances in your AWS accounts. 
 * When using AWS Control Tower, provides the option to add the template to your Control Tower landing zone customization to automatically deploy the Quick Start every time you enroll a new account.
