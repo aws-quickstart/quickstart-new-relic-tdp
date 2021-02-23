@@ -1033,7 +1033,7 @@ AWS Cloud.</p>
 </div>
 <div id="architecture1" class="imageblock">
 <div class="content">
-<img src="images/new-relic-architecture-diagram.png" alt="Architecture" width="100%" height="100%">
+<img src="images/new-relic-architecture-diagram.png" alt="Architecture" width="75%" height="75%">
 </div>
 <div class="title">Figure 1. Quick Start architecture for New Relic on AWS</div>
 </div>
@@ -1053,7 +1053,7 @@ AWS Cloud.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>An Amazon EventBridge rule to filter the Amazon EC2 instances that have a designated tag to trigger the installation of the New Relic infrastructure agent on those instances.</p>
+<p>An Amazon EventBridge rule to filter the Amazon EC2 instances for the matching instance ID and then pass the ID to AWS Systems Manager.</p>
 </li>
 <li>
 <p>An AWS Systems Manager Automation runbook with instructions for retrieving the New Relic license key and installing the New Relic infrastructure agent on Amazon EC2 instances with matching tags.</p>
@@ -1800,8 +1800,8 @@ and to share your customizations with others.</p>
 </html>
 <!--
 repo commit:
-c36e3c3097194bb9b9f228ea97dfe3e352b903aa
+ac4fa8eeb7a495dfff19510130747991a0658caa
 
 submodule config:
-+6e66ba34be2b5984ca7a997018fcb83ede67e6ef docs/boilerplate (heads/main)
++8c5e3419c6d0efaaf4be607213bd5865f993682f docs/boilerplate (heads/main)
 -->
