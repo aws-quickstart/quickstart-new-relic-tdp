@@ -1,20 +1,20 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Configures the AWS Systems Manager and Amazon EventBridge infrastructure required to deploy the New Relic infrastructure agent for EC2 instances. (qs-1rdf7jmtg)
-Metadata: 
+Metadata:
   QuickStartDocumentation:
     EntrypointName: "Parameters for deploying New Relic infrastructure agent for EC2 instances"
-  AWS::CloudFormation::Interface: 
-    ParameterGroups: 
-      - Label: 
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
           default: "New Relic account information"
-        Parameters: 
+        Parameters:
           - NewRelicLicenseKey
-      - Label: 
+      - Label:
           default: "EC2 instance profile"
-        Parameters: 
+        Parameters:
           - CreateEC2InstanceProfile
-    ParameterLabels: 
-      NewRelicLicenseKey: 
+    ParameterLabels:
+      NewRelicLicenseKey:
         default: "New Relic license key"
       CreateEC2InstanceProfile:
         default: "Do you want to create an EC2 instance profile that enables Systems Manager core service functionality?"
@@ -50,15 +50,15 @@ Resources:
             Service: ec2.amazonaws.com
           Action: sts:AssumeRole
       Description: New Relic-provided EC2 role that enables instances to use Systems Manager core service functionality.
-      ManagedPolicyArns: 
+      ManagedPolicyArns:
         - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore
         - !Sub arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy
-  NRSSMInstanceProfile: 
+  NRSSMInstanceProfile:
     Condition: CreateEC2InstanceProfile
     Type: AWS::IAM::InstanceProfile
-    Properties: 
+    Properties:
       Path: /instance-profile/
-      Roles: 
+      Roles:
         - Ref: NRSSMRoleForEC2Instances
   NRLicenseKey:
     Metadata:
@@ -162,7 +162,7 @@ Resources:
         parameters:
           InstanceId:
             type: String
-            description: (Required) The ID of the EC2 instance to install the New Relic infrastructure agent. 
+            description: (Required) The ID of the EC2 instance to install the New Relic infrastructure agent.
               agent on
           FilterByTag:
             description: Filter by the EC2 instance tag, with the "NR-Infrastructure" tag name set to "Install"?
@@ -231,6 +231,18 @@ Resources:
               - Name: Value
                 Selector: $.SecretString
                 Type: String
+          - name: WaitForSSMAgentToBeReady
+            action: aws:waitForAwsResourceProperty
+            inputs:
+              Service: ssm
+              Api: DescribeInstanceInformation
+              PropertySelector: "$.InstanceInformationList[0].PingStatus"
+              DesiredValues:
+              - Online
+              Filters:
+              - Key: InstanceIds
+                Values:
+                  - '{{InstanceId}}'
           - name: InstallNewRelicInfraAgent
             action: aws:runCommand
             inputs:
@@ -253,5 +265,5 @@ Outputs:
     Description: Name of the EventBridge rule.
     Value: !Ref NREC2InfraAgentRule
   Postdeployment:
-    Description: See the deployment guide for post-deployment information. 
+    Description: See the deployment guide for post-deployment information.
     Value: https://fwd.aws/xj578
