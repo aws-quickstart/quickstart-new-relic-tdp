@@ -101,6 +101,8 @@ Resources:
         rules_to_suppress:
           - id: W11
             reason: Systems Manager Automation execution role needs restricted access to all EC2 instances to run the automation.
+          - id: E9101
+            reason: AWS API has these terms (execute), not this template.
     Properties:
       Path: /service-role/
       AssumeRolePolicyDocument:
@@ -134,9 +136,82 @@ Resources:
                 Resource:
                   - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:539736333151:document/New-Relic_Infrastructure
               - Action:
-                  - ssm:List*
-                  - ssm:Get*
-                  - ssm:Describe*
+                  - ssm:ListInstanceAssociations
+                  - ssm:ListOpsItemEvents
+                  - ssm:ListResourceDataSync
+                  - ssm:ListOpsItemRelatedItems
+                  - ssm:ListComplianceItems
+                  - ssm:ListResourceComplianceSummaries
+                  - ssm:ListDocumentVersions
+                  - ssm:ListCommands
+                  - ssm:ListTagsForResource
+                  - ssm:ListOpsMetadata
+                  - ssm:ListComplianceSummaries
+                  - ssm:ListCommandInvocations
+                  - ssm:ListInventoryEntries
+                  - ssm:ListAssociations
+                  - ssm:ListDocuments
+                  - ssm:ListDocumentMetadataHistory
+                  - ssm:ListAssociationVersions
+                  - ssm:GetParametersByPath
+                  - ssm:GetMaintenanceWindowTask
+                  - ssm:GetServiceSetting
+                  - ssm:GetInventory
+                  - ssm:GetDocument
+                  - ssm:GetCalendarState
+                  - ssm:GetManifest
+                  - ssm:GetParameter
+                  - ssm:GetParameterHistory
+                  - ssm:GetPatchBaselineForPatchGroup
+                  - ssm:GetConnectionStatus
+                  - ssm:GetOpsItem
+                  - ssm:GetOpsSummary
+                  - ssm:GetOpsMetadata
+                  - ssm:GetMaintenanceWindowExecution
+                  - ssm:GetCommandInvocation
+                  - ssm:GetPatchBaseline
+                  - ssm:GetMaintenanceWindowExecutionTaskInvocation
+                  - ssm:GetMaintenanceWindow
+                  - ssm:GetInventorySchema
+                  - ssm:GetParameters
+                  - ssm:GetDeployablePatchSnapshotForInstance
+                  - ssm:GetAutomationExecution
+                  - ssm:GetDefaultPatchBaseline
+                  - ssm:GetMaintenanceWindowExecutionTask
+                  - ssm:DescribeEffectivePatchesForPatchBaseline
+                  - ssm:DescribeDocument
+                  - ssm:DescribeAssociationExecutionTargets
+                  - ssm:DescribeAvailablePatches
+                  - ssm:DescribeDocumentPermission
+                  - ssm:DescribeEffectiveInstanceAssociations
+                  - ssm:DescribeAutomationStepExecutions
+                  - ssm:DescribeInstancePatchStatesForPatchGroup
+                  - ssm:DescribeMaintenanceWindowExecutionTaskInvocations
+                  - ssm:DescribeOpsItems
+                  - ssm:DescribeInstanceAssociationsStatus
+                  - ssm:DescribeAssociation
+                  - ssm:DescribeAssociationExecutions
+                  - ssm:DescribeInventoryDeletions
+                  - ssm:DescribeSessions
+                  - ssm:DescribeAutomationExecutions
+                  - ssm:DescribeMaintenanceWindows
+                  - ssm:DescribeMaintenanceWindowsForTarget
+                  - ssm:DescribeParameters
+                  - ssm:DescribeInstancePatches
+                  - ssm:DescribePatchGroups
+                  - ssm:DescribeInstancePatchStates
+                  - ssm:DescribeMaintenanceWindowExecutionTasks
+                  - ssm:DescribePatchBaselines
+                  - ssm:DescribeInstanceInformation
+                  - ssm:DescribePatchProperties
+                  - ssm:DescribeMaintenanceWindowTasks
+                  - ssm:DescribePatchGroupState
+                  - ssm:DescribeInstanceProperties
+                  - ssm:DescribeMaintenanceWindowExecutions
+                  - ssm:DescribeActivations
+                  - ssm:DescribeDocumentParameters
+                  - ssm:DescribeMaintenanceWindowTargets
+                  - ssm:DescribeMaintenanceWindowSchedule
                 Effect: Allow
                 Resource:
                   - !Sub arn:${AWS::Partition}:ssm:*:${AWS::AccountId}:*
