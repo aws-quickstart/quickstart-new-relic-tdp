@@ -134,9 +134,82 @@ Resources:
                 Resource:
                   - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:539736333151:document/New-Relic_Infrastructure
               - Action:
-                  - ssm:List*
-                  - ssm:Get*
-                  - ssm:Describe*
+                  - ssm:ListAssociationVersions
+                  - ssm:ListAssociations
+                  - ssm:ListCommandInvocations
+                  - ssm:ListCommands
+                  - ssm:ListComplianceItems
+                  - ssm:ListComplianceSummaries
+                  - ssm:ListDocumentMetadataHistory
+                  - ssm:ListDocumentVersions
+                  - ssm:ListDocuments
+                  - ssm:ListInstanceAssociations
+                  - ssm:ListInventoryEntries
+                  - ssm:ListOpsItemEvents
+                  - ssm:ListOpsItemRelatedItems
+                  - ssm:ListOpsMetadata
+                  - ssm:ListResourceComplianceSummaries
+                  - ssm:ListResourceDataSync
+                  - ssm:ListTagsForResource
+                  - ssm:GetAutomationExecution
+                  - ssm:GetCalendarState
+                  - ssm:GetCommandInvocation
+                  - ssm:GetConnectionStatus
+                  - ssm:GetDefaultPatchBaseline
+                  - ssm:GetDeployablePatchSnapshotForInstance
+                  - ssm:GetDocument
+                  - ssm:GetInventory
+                  - ssm:GetInventorySchema
+                  - ssm:GetMaintenanceWindow
+                  - ssm:GetMaintenanceWindowExecution
+                  - ssm:GetMaintenanceWindowExecutionTask
+                  - ssm:GetMaintenanceWindowExecutionTaskInvocation
+                  - ssm:GetMaintenanceWindowTask
+                  - ssm:GetManifest
+                  - ssm:GetOpsItem
+                  - ssm:GetOpsMetadata
+                  - ssm:GetOpsSummary
+                  - ssm:GetParameter
+                  - ssm:GetParameterHistory
+                  - ssm:GetParameters
+                  - ssm:GetParametersByPath
+                  - ssm:GetPatchBaseline
+                  - ssm:GetPatchBaselineForPatchGroup
+                  - ssm:GetServiceSetting
+                  - ssm:DescribeActivations
+                  - ssm:DescribeAssociation
+                  - ssm:DescribeAssociationExecutionTargets
+                  - ssm:DescribeAssociationExecutions
+                  - ssm:DescribeAutomationExecutions
+                  - ssm:DescribeAutomationStepExecutions
+                  - ssm:DescribeAvailablePatches
+                  - ssm:DescribeDocument
+                  - ssm:DescribeDocumentParameters
+                  - ssm:DescribeDocumentPermission
+                  - ssm:DescribeEffectiveInstanceAssociations
+                  - ssm:DescribeEffectivePatchesForPatchBaseline
+                  - ssm:DescribeInstanceAssociationsStatus
+                  - ssm:DescribeInstanceInformation
+                  - ssm:DescribeInstancePatchStates
+                  - ssm:DescribeInstancePatchStatesForPatchGroup
+                  - ssm:DescribeInstancePatches
+                  - ssm:DescribeInstanceProperties
+                  - ssm:DescribeInventoryDeletions
+                  - ssm:DescribeMaintenanceWindowExecutionTaskInvocations
+                  - ssm:DescribeMaintenanceWindowExecutionTasks
+                  - ssm:DescribeMaintenanceWindowExecutions
+                  - ssm:DescribeMaintenanceWindowSchedule
+                  - ssm:DescribeMaintenanceWindowTargets
+                  - ssm:DescribeMaintenanceWindowTasks
+                  - ssm:DescribeMaintenanceWindows
+                  - ssm:DescribeMaintenanceWindowsForTarget
+                  - ssm:DescribeOpsItems
+                  - ssm:DescribeParameters
+                  - ssm:DescribePatchBaselines
+                  - ssm:DescribePatchGroupState
+                  - ssm:DescribePatchGroups
+                  - ssm:DescribePatchProperties
+                  - ssm:DescribeSessions
                 Effect: Allow
                 Resource:
                   - !Sub arn:${AWS::Partition}:ssm:*:${AWS::AccountId}:*
@@ -236,7 +309,7 @@ Resources:
             inputs:
               InstanceIds:
                 - '{{InstanceId}}'
-              DocumentName: !Sub arn:aws:ssm:${AWS::Region}:539736333151:document/New-Relic_Infrastructure
+              DocumentName: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:539736333151:document/New-Relic_Infrastructure
               Parameters:
                 licenseKey:
                   - '{{GetNRLicenseKeySecret.Value}}'
