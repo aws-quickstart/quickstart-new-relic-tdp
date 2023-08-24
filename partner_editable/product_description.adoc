@@ -1,0 +1,14 @@
+// Replace the content in <>
+// Briefly describe the software. Use consistent and clear branding. 
+// Include the benefits of using the software on AWS, and provide details on usage scenarios.
+
+{partner-product-name} is used for reporting your EC2 metadata to {partner-company-name} products.
+After you install the {partner-company-name} infrastructure agent on each EC2 instance, you can view metrics from that instance and get a comprehensive, real-time view of the performance and status of your EC2 instances. 
+
+This Quick Start relies on AWS Systems Manager Automation for managing deployment tasks. SSM Agent must be installed on all EC2 instances.
+
+See the following resources for more information:
+
+* https://aws.amazon.com/systems-manager/[AWS Systems Manager^]
+* https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html[AWS Systems Manager Automation^]
+* https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html[Working with SSM Agent^]
