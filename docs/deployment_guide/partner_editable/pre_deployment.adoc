@@ -1,3 +1,15 @@
 //Include any predeployment steps here, such as signing up for a Marketplace AMI or making any changes to a partner account. If there are no predeployment steps, leave this file empty.
 
 == Predeployment steps
+
+=== Prepare your AWS account
+
+To prepare your AWS account, do the following:
+
+* Obtain https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html#jf_administrator[administrator access^] to your AWS account so you can deploy, manage, and test the deployment. If using AWS Control Tower, deploy the solution to the Control Tower https://docs.aws.amazon.com/controltower/latest/userguide/how-control-tower-works.html#what-is-master[management account^] in your home Region where the Control Tower https://aws.amazon.com/controltower/features/#Landing_Zone[landing zone^] was configured.
+* Set up https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html[AWS CloudFormation stack set permissions^] in your AWS account. Use self-managed permissions for better security and control. If using AWS Control Tower, use the preconfigured IAM roles `AWSControlTowerStackSetRole` and `AWSControlTowerExecution`.
+* Install https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html[AWS Systems Manager Automation^] and confirm that the https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html[SSM Agent^] is installed on the EC2 instances. By default, the SSM Agent is already installed on many Windows and Linux Amazon Machine Images (AMI). If you are using an AMI that doesn't have the agent installed, you must manually install the SSM Agent. For installation instructions, see https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-manual-agent-install.html[Manually install SSM Agent on EC2 instances for Linux^] and https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-win.html[Manually install SSM Agent on EC2 instances for Windows Server^].  
+
+=== Prepare your {partner-company-name} account
+
+Confirm that you have an active {partner-product-short-name} account. You can create an account using the https://docs.newrelic.com/docs/accounts/accounts-billing/new-relic-one-pricing-users/pricing-billing[New Relic One pricing plan^]. Be sure to choose a Standard, Pro, or Enterprise plan for access to administrator features and support. If you don't already have a {partner-product-short-name} account, you can sign up for a free one in the https://aws.amazon.com/marketplace/pp/B08L5FQMTG[AWS Marketplace^]. After setting up your {partner-product-short-name} account, https://one.newrelic.com/[log in^] to get started. 

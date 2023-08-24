@@ -11,18 +11,17 @@ image::../docs/deployment_guide/images/architecture_diagram.png[Architecture]
 
 As shown in <<architecture1>>, this Partner Solution sets up the following:
 
-* A highly available architecture that spans two Availability Zones.*
-* A virtual private cloud (VPC) configured with public and private subnets, according to AWS
-best practices, to provide you with your own virtual network on AWS.*
-* In the public subnets:
-** Managed network address translation (NAT) gateways to allow outbound
-internet access for resources in the private subnets.*
-** A Linux bastion host in an Auto Scaling group to allow inbound Secure
-Shell (SSH) access to Amazon Elastic Compute Cloud (Amazon EC2) instances in public and private subnets.*
-* In the private subnets:
-** <item>.
-** <item>.
-// Add bullet points for any additional components that are included in the deployment. Ensure that the additional components are shown in the architecture diagram. End each bullet with a period.
-* <describe any additional components>.
+* (Optional) Amazon EC2 instance profile with a linked AWS Identity and Access Management (IAM) role used for granting access to AWS Systems Manager service functionality within the Amazon EC2 instance.*  
+* An AWS Systems Manager Automation execution IAM role to allow the Amazon EC2 instances to run the AWS Systems Manager Automation runbook.
+* In the Region:
+
+** An Amazon EventBridge rule to filter the Amazon EC2 instances for the matching instance ID and then pass the ID to AWS Systems Manager.  
+** An AWS Systems Manager Automation runbook with instructions for retrieving the {partner-product-short-name} license key and installing the {partner-product-short-name} infrastructure agent on Amazon EC2 instances with matching tags.  
+** An AWS Systems Manager Command document to run the installation commands listed in the Automation runbook. 
+
+* IAM configurations that include groups, roles, and instance profiles as well as customizable IAM policies.
+* Amazon Eventbridge for providing the filtering rule.
+* AWS Systems Manager for providing the Automation runbook and Command document.
+* AWS Secrets Manager for storing the New Relic license key. 
 
 [.small]#* The template that deploys this Partner Solution into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#

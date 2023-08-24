@@ -2,5 +2,44 @@
 
 For troubleshooting common Partner Solution issues, refer to the https://fwd.aws/rA69w?[AWS Partner Solution General Information Guide^] and https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html[Troubleshooting CloudFormation^].
 
-// == Resources
+=== FAQ
+
+*Q.* I can't connect to the instance I launched for testing using Session Manager.
+
+*A.* Confirm that your instance is associated with an instance profile that is configured to use AWS Systems Manager and that the SSM Agent is installed on the instance. For more information, see https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html[Create an IAM instance profile for Systems Manager^]. 
+
+Also be sure that the security group associated with your instance allows incoming SSH traffic from your IP address. 
+
+NOTE: After you launch an instance, sometimes it takes a few minutes before you can connect to it. Check that your instance has passed the status checks. You can view this information in the *Status check* column on the *Instances* page.
+
+If you have tried these steps and the issue is still not resolved, see https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-troubleshooting.html[Troubleshooting Session Manager^]. For general connection issues, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html[Troubleshooting connecting to your instance^].
+
+*Q.* The {partner-product-short-name} infrastructure agent is installed, but no data shows up in {partner-product-short-name}.
+
+*A.* Be sure that the agent configuration file (https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/configuration/configure-infrastructure-agent#config-file[newrelic-infra.yml^]) contains a valid license key (`license_key`) and that it matches your https://docs.newrelic.com/docs/accounts/accounts-billing/account-setup/new-relic-license-key[{partner-product-short-name} license key^]. 
+
+Also verify that no firewalls or proxies are blocking outbound connections from the agent process to the infrastructure domains and ports. For more information about domains and ports, see https://docs.newrelic.com/docs/apm/new-relic-apm/getting-started/networks#infrastructure[Infrastructure agents^].
+
+For accounts installing the infrastructure agent for the first time, several minutes may pass before you see data in the infrastructure monitoring UI. If you've verified the installation and no obvious error conditions appear in the verbose logs, monitor the infrastructure UI for a while longer. If the data still does not appear, contact https://support.newrelic.com/[{partner-product-short-name} Support^] for assistance.
+For more information, see the following resources:
+
+* https://docs.newrelic.com/docs/infrastructure/infrastructure-troubleshooting/troubleshoot-infrastructure/no-data-appears-infrastructure[No data appears (Infrastructure)^]
+* https://docs.newrelic.com/docs/infrastructure/install-infrastructure-agent/manage-your-agent/troubleshoot-running-infrastructure-agent[Troubleshoot a running infrastructure agent^].
+
+*Q.* The {partner-product-short-name} infrastructure agent is not running and there are no logs.
+
+*A.* Make sure you tagged the instance appropriately, with `NR-Infrastructure` set to `Install`. Verify that the AMI's operating system and architecture is supported by the {partner-product-short-name} infrastructure agent. If supported, investigate the SSM Automation that runs in response to the EC2 instance starting up, and see if it produced any errors.
+
+SSM Automation reports provide information about various statuses that an automation action or step goes through when you run an automation, and for the overall automation. To check status, do these steps:
+
+. Navigate to the Systems Manager console. 
+. Choose the same Region where you launched your instance. 
+. In the navigation pane, choose *Automation*. 
+. In the *Executions* tab, locate the status message beside the document named *NR-EC2InfraAgentSSMAutomationDoc*. If an error has occurred, check the message for the possible root cause and address or report the error. If no error has occurred, try running the automation manually. For more information, see https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-working-executing-manually.html[Running an automation manually^].
+
+
+== Resources
 // Uncomment section and add links to any external resources that are specified by the partner.
+
+* https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/troubleshooting/agent-not-starting-there-are-no-logs[The agent is not starting and there are no logs]
+* https://docs.newrelic.com/docs/infrastructure/infrastructure-troubleshooting/troubleshoot-logs/generate-logs-troubleshooting-infrastructure[Generate logs for troubleshooting the infrastructure agent]

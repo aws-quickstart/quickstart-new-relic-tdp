@@ -1,3 +1,63 @@
 // Include any postdeployment steps here, such as steps necessary to test that the deployment was successful. If there are no postdeployment steps, leave this file empty.
 
+=== Deploy using CloudFormation StackSets ===
+Deploy the stack set instances in your AWS accounts across all Regions where you plan to install the {partner-product-short-name} infrastructure agent on your EC2 instances. Each deployment takes about {deployment_time} to complete.
+
+NOTE: The following instructions provide steps for deploying {partner-product-short-name} using the command line. However, you can also deploy the stack set directly from the AWS Console by creating a stack set, uploading the https://fwd.aws/Wjr9N[template file^], and providing parameter field values (including your AWS accounts and Regions).
+
+. Create a stack set named `NR-EC2InfraSSMAutomation` in your AWS account in your StackSets administration account or your Control Tower management account. You can create the stack in another account, if necessary. Replace the following placeholders with your own values:
+
+* `AWS_ACCOUNT_ID`: Your https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html[AWS account ID]
+* `NEW_RELIC_LICENSE_KEY`: Your https://docs.newrelic.com/docs/accounts/accounts-billing/account-setup/new-relic-license-key[{partner-product-short-name} license key]
+* `STACK_SET_ADMINISTRATION_ROLE_NAME`: Your IAM role name for the StackSets administration role
+* `STACK_SET_EXECUTION_ROLE_NAME`: Your IAM role names for the StackSets execution role
++
+----
+aws cloudformation create-stack-set \
+    --stack-set-name NR-EC2InfraSSMAutomation \
+    --template-body file:./templates/NR-EC2InfraAgentSSMAutomation.yml \
+    --description "SSM Automation workflow for installing New Relic Infrastructure Agent on EC2 instances" \
+    --parameters ParameterKey=NewRelicLicenseKey,ParameterValue=<NEW_RELIC_LICENSE_KEY> \
+    --capabilities CAPABILITY_NAMED_IAM \
+    --administration-role-arn arn:aws:iam::<AWS_ACCOUNT_ID>:role/<STACK_SET_ADMINISTRATION_ROLE_NAME> \
+    --execution-role-name <STACK_SET_EXECUTION_ROLE_NAME> \
+    --permission-model SELF_MANAGED
+----
++
+After a few minutes, verify that the stack was created by running the following command. Make sure the stack name `NR-EC2InfraSSMAutomation` is returned.
++
+----
+aws cloudformation describe-stack-set --stack-set-name NR-EC2InfraSSMAutomation --query "StackSet.StackSetName"
+----
+
+. Next, create instances of the `NR-EC2InfraSSMAutomation` StackSet across various AWS accounts and Regions where you plan to launch EC2 instances. The following example creates instances in two accounts and in four Regions in the United States.
++
+----
+aws cloudformation create-stack-instances \
+    --stack-set-name NR-EC2InfraSSMAutomation \
+    --accounts 123456789012 223456789012 \
+    --regions us-east-1 us-east-2 us-west-1 us-west-2
+----
++
+After the command returns successfully, the Stack instances creation operation starts and an `OperationId` is returned. You can check the status of the operation after a few seconds. To verify the operation was successfully completed, run the below command, and make sure the status, viz. `SUCCEEDED` is returned. Use the returned `OperationId` value in place of `OPERATION_ID` placeholder.
++
+----
+aws cloudformation describe-stack-set-operation \
+    --stack-set-name NR-EC2InfraSSMAutomation \
+    --operation-id <OPERATION_ID> \
+    --query "StackSetOperation.Status"
+----
+
 == Postdeployment steps
+
+=== Test the deployment
+To test the deployment, log in to your AWS account, choose the Region where the StackSet instance is deployed, and launch an EC2 instance. Confirm the following:
+
+* Review the https://docs.newrelic.com/docs/infrastructure/install-infrastructure-agent/get-started/requirements-infrastructure-agent[requirements for the infrastructure agent] to confirm that it supports the AMI.
+* Confirm that the SSM Agent is installed. The agent can be installed either by default or manually, preferably at launch or afterwards.
+* Confirm that the instance profile has permissions to run SSM commands on the EC2 instance. If you can't create a new instance profile or use an existing one, use the profile that was created by the deployment (`NRSSMInstanceProfile`). The deployment creates the instance profile when you set the CloudFormation template parameter `CreateEC2InstanceProfile` to `Yes`. For more information, see https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html[Create an IAM instance profile for Systems Manager^].
+* Add the tag named `NR-Infrastructure` and set the value to *Install*. This tag key-value pair allows the automation workflow to automatically install the {partner-product-short-name} infrastructure agent on the EC2 instance as soon as it is launched and in running state.
+
+Connect to your EC2 instance, open a terminal client, and run the `newrelic-infra --version` command. Running this command displays the {partner-product-short-name} infrastructure agent version information and confirms that the agent was successfully installed on the EC2 instance. Now you can monitor the instance from your {partner-product-short-name} account.
+
+Log in to your https://one.newrelic.com/[New Relic account], navigate to the https://one.newrelic.com/launcher/nr1-core.explorer[entity explorer], and look for the EC2 instance on the *Hosts* page. You can launch more instances using a variety of different AMIs that are supported by the {partner-product-short-name} infrastructure agent. These instances automatically show up in your {partner-product-short-name} account.

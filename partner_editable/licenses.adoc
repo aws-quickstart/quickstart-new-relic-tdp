@@ -1,3 +1,0 @@
-// Include details about the license and how they can sign up. If no license is required, clarify that. 
-
-This Quick Start requires a New Relic license key, which is available with your New Relic account. If you are using a third-party software vendor (such as Microsoft, SAP, Oracle, or IBM) with your EC2 instances, you are responsible for complying with the license agreements that are required by that software vendor. To learn more about managing software licenses with third-party vendors, see https://aws.amazon.com/license-manager/[AWS License Manager].
